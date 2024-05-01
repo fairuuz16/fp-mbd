@@ -586,3 +586,38 @@ VALUES
 ('DP082', 1, 6000.00, 'Tidak pedas', 'Selesai', 'PS082');
 
 SELECT * FROM Detail_Pesanan;
+
+DROP PROCEDURE IF EXISTS UpdateStokMenu;
+DROP FUNCTION IF EXISTS CalculateTotalPrice;
+DROP TRIGGER IF EXISTS AfterInsertPesananMenu;
+DROP TRIGGER IF EXISTS BeforeInsertDetailPesanan;
+
+CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
+BEGIN
+    UPDATE Menu
+    SET stok_menu = stok_menu - jumlah
+    WHERE id_menu = menu_id;
+END
+
+CREATE FUNCTION CalculateTotalPrice(jumlah INT, harga DECIMAL(7,2)) RETURNS DECIMAL(7,2)
+BEGIN
+    DECLARE total DECIMAL(7,2);
+    SET total = jumlah * harga;
+    RETURN total;
+END
+
+CREATE TRIGGER AfterInsertPesananMenu
+AFTER INSERT ON Pesanan_Menu
+FOR EACH ROW
+BEGIN
+    CALL UpdateStokMenu(NEW.menu_id_menu, 1);
+END
+
+CREATE TRIGGER BeforeInsertDetailPesanan
+BEFORE INSERT ON Detail_Pesanan
+FOR EACH ROW
+BEGIN
+    DECLARE harga DECIMAL(7,2);
+    SELECT harga_menu INTO harga FROM Menu WHERE id_menu = (SELECT menu_id_menu FROM Pesanan_Menu WHERE pesanan_pm_id_pesanan = NEW.pesanan_dp_id_pesanan);
+    SET NEW.total_harga = CalculateTotalPrice(NEW.jumlah_menu, harga);
+END
