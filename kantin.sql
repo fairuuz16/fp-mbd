@@ -66,7 +66,6 @@ CREATE TABLE Detail_Pesanan (
     FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
 );
 
-
 INSERT INTO Penjual (id_penjual, nama_penjual, email_penjual, password_penjual, status_penjual) 
 VALUES 
 ('P0001', 'Ombens', 'ombens@example.com', 'ombens123', 1),
@@ -161,7 +160,7 @@ VALUES
 ('M0027', 'Pentol', '00:05:00', 2, 6000.00, 'Makanan', 'P0003'),
 ('M0028', 'Nasi Rames', '00:07:00', 17, 14000.00, 'Makanan', 'P0003'),
 ('M0029', 'Nasi Campur', '00:07:00', 19, 14000.00, 'Makanan', 'P0003'),
-('M0030', 'Kopi ABC', '00:01:00', 15, 10000.00, 'Minuman', 'P004'),
+('M0030', 'Kopi ABC', '00:01:00', 15, 10000.00, 'Minuman', 'P0004'),
 ('M0031', 'Larutan', '00:01:00', 3, 6000.00, 'Minuman', 'P0004'),
 ('M0032', 'Ultra Milk', '00:01:00', 18, 9000.00, 'Minuman', 'P0004'),
 ('M0033', 'STee', '00:01:00', 8, 4000.00, 'Minuman', 'P0004'),
@@ -443,6 +442,7 @@ DROP FUNCTION IF EXISTS CalculateTotalPrice;
 DROP TRIGGER IF EXISTS AfterInsertPesananMenu;
 DROP TRIGGER IF EXISTS BeforeInsertDetailPesanan;
 
+-- Procedure, Function, Trigger
 CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
 BEGIN
     UPDATE Menu
@@ -461,8 +461,13 @@ CREATE TRIGGER AfterInsertPesananMenu
 AFTER INSERT ON Pesanan_Menu
 FOR EACH ROW
 BEGIN
-    CALL UpdateStokMenu(NEW.menu_id_menu, 1);
-END
+    DECLARE jumlah_pesanan INT;
+    SELECT jumlah_menu INTO jumlah_pesanan
+    FROM Detail_Pesanan
+    WHERE pesanan_dp_id_pesanan = NEW.pesanan_pm_id_pesanan;
+
+    CALL UpdateStokMenu(NEW.menu_id_menu, jumlah_pesanan);
+END;
 
 CREATE TRIGGER BeforeInsertDetailPesanan
 BEFORE INSERT ON Detail_Pesanan
@@ -472,3 +477,40 @@ BEGIN
     SELECT harga_menu INTO harga FROM Menu WHERE id_menu = (SELECT menu_id_menu FROM Pesanan_Menu WHERE pesanan_pm_id_pesanan = NEW.pesanan_dp_id_pesanan);
     SET NEW.total_harga = CalculateTotalPrice(NEW.jumlah_menu, harga);
 END
+
+
+-- Check index
+SHOW INDEXES FROM Penjual;
+SHOW INDEXES FROM Pembeli;
+SHOW INDEXES FROM Pegawai;
+SHOW INDEXES FROM Menu;
+SHOW INDEXES FROM Pesanan;
+SHOW INDEXES FROM Pesanan_Menu;
+SHOW INDEXES FROM Detail_Pesanan;
+
+
+
+-- Lihat hasil eksekusi query (trial index)
+EXPLAIN SELECT * FROM Pesanan WHERE pembeli_ps_id_pembeli = 'C0001';
+EXPLAIN SELECT * FROM Menu WHERE penjual_me_id_penjual = 'P0001';
+
+-- Implementasi index
+CREATE INDEX idx_penjual_id ON Penjual (id_penjual);
+CREATE INDEX idx_pembeli_id ON Pembeli (id_pembeli);
+CREATE INDEX idx_pegawai_penjual ON Pegawai (penjual_pg_id_penjual);
+CREATE INDEX idx_menu_penjual ON Menu (penjual_me_id_penjual);
+CREATE INDEX idx_pesanan_pembeli ON Pesanan (pembeli_ps_id_pembeli);
+CREATE INDEX idx_pesanan_penjual ON Pesanan (penjual_ps_id_penjual);
+CREATE INDEX idx_pesanan_menu_pesanan ON Pesanan_Menu (pesanan_pm_id_pesanan);
+CREATE INDEX idx_pesanan_menu_menu ON Pesanan_Menu (menu_id_menu);
+CREATE INDEX idx_detail_pesanan_pesanan ON Detail_Pesanan (pesanan_dp_id_pesanan);
+
+-- Nonaktifkan query chache
+SET GLOBAL query_cache_size = 0;
+
+-- Ukur waktu eksekusi query
+SET profiling = 1;  
+SELECT * FROM Pesanan WHERE pembeli_ps_id_pembeli = 'C0001';
+SELECT * FROM Menu WHERE penjual_me_id_penjual = 'P0001';
+SHOW PROFILES;  
+SET profiling = 0;
