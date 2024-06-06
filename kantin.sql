@@ -1,9 +1,9 @@
--- Active: 1716900583862@@127.0.0.1@3306@fp_mbd
+-- Active: 1702947609752@@127.0.0.1@3306@fpmbd
 -- Active: 1702947609752@@127.0.0.1@3306
 CREATE DATABASE fp_mbd
     DEFAULT CHARACTER SET = 'utf8mb4';
 
-USE fp_mbd;
+USE fpmbd;
 
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
@@ -1032,6 +1032,9 @@ SHOW INDEXES FROM Detail_Pesanan;
 -- Lihat hasil eksekusi query (trial index)
 EXPLAIN SELECT * FROM Pesanan WHERE pembeli_ps_id_pembeli = 'C0001';
 EXPLAIN SELECT * FROM Menu WHERE penjual_me_id_penjual = 'P0001';
+EXPLAIN SELECT * FROM Menu WHERE nama_menu LIKE '%Ayam%';
+EXPLAIN SELECT * FROM Detail_Pesanan WHERE status_pesanan = 'Siap';
+EXPLAIN SELECT * FROM Pesanan WHERE waktu_pesanan >= '2023-12-13' AND waktu_pesanan < '2023-12-14';
 
 -- Implementasi index
 CREATE INDEX idx_penjual_id ON Penjual (id_penjual);
@@ -1051,5 +1054,8 @@ SET GLOBAL query_cache_size = 0;
 SET profiling = 1;  
 SELECT * FROM Pesanan WHERE pembeli_ps_id_pembeli = 'C0001';
 SELECT * FROM Menu WHERE penjual_me_id_penjual = 'P0001';
+SELECT * FROM Menu WHERE nama_menu LIKE '%Ayam%';
+SELECT * FROM Detail_Pesanan WHERE status_pesanan = 'Siap';
+SELECT * FROM Pesanan WHERE waktu_pesanan >= '2023-12-13' AND waktu_pesanan < '2023-12-14';
 SHOW PROFILES;  
 SET profiling = 0;
