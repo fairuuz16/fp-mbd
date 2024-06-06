@@ -3,7 +3,7 @@
 CREATE DATABASE fp_mbd
     DEFAULT CHARACTER SET = 'utf8mb4';
 
-USE fpmbd;
+USE fp_mbd;
 
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
@@ -1027,35 +1027,32 @@ SHOW INDEXES FROM Pesanan;
 SHOW INDEXES FROM Pesanan_Menu;
 SHOW INDEXES FROM Detail_Pesanan;
 
-
-
+-- Implementasi index
+CREATE INDEX idx_menu_nama ON Menu (nama_menu);
+CREATE INDEX idx_detail_pesanan_status ON Detail_Pesanan (status_pesanan);
+CREATE INDEX idx_pesanan_waktu ON Pesanan (waktu_pesanan);
+CREATE INDEX idx_penjual_status ON Penjual (status_penjual);
 -- Lihat hasil eksekusi query (trial index)
-EXPLAIN SELECT * FROM Pesanan WHERE pembeli_ps_id_pembeli = 'C0001';
-EXPLAIN SELECT * FROM Menu WHERE penjual_me_id_penjual = 'P0001';
-EXPLAIN SELECT * FROM Menu WHERE nama_menu LIKE '%Ayam%';
+EXPLAIN SELECT * FROM Menu WHERE nama_menu LIKE '%Rendang%';
 EXPLAIN SELECT * FROM Detail_Pesanan WHERE status_pesanan = 'Siap';
 EXPLAIN SELECT * FROM Pesanan WHERE waktu_pesanan >= '2023-12-13' AND waktu_pesanan < '2023-12-14';
-
--- Implementasi index
-CREATE INDEX idx_penjual_id ON Penjual (id_penjual);
-CREATE INDEX idx_pembeli_id ON Pembeli (id_pembeli);
-CREATE INDEX idx_pegawai_penjual ON Pegawai (penjual_pg_id_penjual);
-CREATE INDEX idx_menu_penjual ON Menu (penjual_me_id_penjual);
-CREATE INDEX idx_pesanan_pembeli ON Pesanan (pembeli_ps_id_pembeli);
-CREATE INDEX idx_pesanan_penjual ON Pesanan (penjual_ps_id_penjual);
-CREATE INDEX idx_pesanan_menu_pesanan ON Pesanan_Menu (pesanan_pm_id_pesanan);
-CREATE INDEX idx_pesanan_menu_menu ON Pesanan_Menu (menu_id_menu);
-CREATE INDEX idx_detail_pesanan_pesanan ON Detail_Pesanan (pesanan_dp_id_pesanan);
+EXPLAIN SELECT * FROM Penjual WHERE status_penjual = '1';
 
 -- Nonaktifkan query chache
 SET GLOBAL query_cache_size = 0;
 
 -- Ukur waktu eksekusi query
 SET profiling = 1;  
-SELECT * FROM Pesanan WHERE pembeli_ps_id_pembeli = 'C0001';
-SELECT * FROM Menu WHERE penjual_me_id_penjual = 'P0001';
-SELECT * FROM Menu WHERE nama_menu LIKE '%Ayam%';
+SELECT * FROM Menu WHERE nama_menu LIKE '%Rendang%';
 SELECT * FROM Detail_Pesanan WHERE status_pesanan = 'Siap';
 SELECT * FROM Pesanan WHERE waktu_pesanan >= '2023-12-13' AND waktu_pesanan < '2023-12-14';
+SELECT * FROM Penjual WHERE status_penjual = '1';
 SHOW PROFILES;  
 SET profiling = 0;
+
+-- Trial 1
+DROP INDEX idx_pesanan_waktu ON Pesanan;
+SELECT * FROM Pesanan WHERE waktu_pesanan <= '2023-12-15';
+CREATE INDEX idx_pesanan_waktu ON Pesanan (waktu_pesanan);
+SHOW INDEXES FROM Pesanan;
+EXPLAIN SELECT * FROM Pesanan WHERE waktu_pesanan >= '2023-12-13' AND waktu_pesanan < '2023-12-14';
