@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinarqya FoodCourt</title>
+    <style>
+        .logo{
+            margin-left: 50px;
+        }
+        .topright{
+            margin-right: 50px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 20px 0;
+        }
+        header a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: black;
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .content .text {
+            flex: 1;
+            text-align: left;
+        }
+        .content .text h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .content .text p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .content .text button {
+            padding: 15px 30px;
+            font-size: 1em;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .content .image {
+            flex: 1;
+            text-align: right;
+        }
+        .content .image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        footer {
+            margin-top: 50px;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #ccc;
+        }
+        footer a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2>Sinargya</h2>
+        </div>
+        <div class="topright">
+            <nav>
+                <a href="about.html">About Us</a>
+                <a href="help.html">Help</a>
+                <a href="profile.html">Profile</a>
+                <button onclick="location.href='order.html'">Order Now</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <div class="text">
+                <h1>Sinargya</h1>
+                <h2>Welcome to Sinargya FoodCourt</h2>
+                <p>Sinarqya Food Court, established in 2022, stands as a vibrant culinary hub that has quickly become a beloved destination for food enthusiasts and casual diners alike. Located in the heart of the city, its architecture blends modern design with elements that reflect the cultural heritage of the region, creating an inviting atmosphere from the moment you step inside.</p>
+                <button onclick="location.href='order.html'">Order Now</button>
+            </div>
+            <div class="image">
+                <img src="https://via.placeholder.com/400" alt="Food Court Image">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Sinarqya</p>
+        <div class="social">
+            <a href="#"><img src="https://via.placeholder.com/20" alt="Facebook"></a>
+            <a href="#"><img src="https://via.placeholder.com/20" alt="LinkedIn"></a>
+            <a href="#"><img src="https://via.placeholder.com/20" alt="YouTube"></a>
+            <a href="#"><img src="https://via.placeholder.com/20" alt="Instagram"></a>
+        </div>
+    </footer>
+</body>
+</html>
