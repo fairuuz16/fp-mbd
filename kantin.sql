@@ -1,4 +1,4 @@
--- Active: 1702947609752@@127.0.0.1@3306@fpmbd
+-- Active: 1718165534569@@127.0.0.1@3306
 -- Active: 1702947609752@@127.0.0.1@3306
 CREATE DATABASE fp_mbd
     DEFAULT CHARACTER SET = 'utf8mb4';
@@ -977,11 +977,104 @@ VALUES
 SELECT * FROM Detail_Pesanan;
 
 DROP PROCEDURE IF EXISTS UpdateStokMenu;
+DROP PROCEDURE IF EXISTS FullOrder;
 DROP FUNCTION IF EXISTS CalculateTotalPrice;
 DROP TRIGGER IF EXISTS AfterInsertPesananMenu;
 DROP TRIGGER IF EXISTS BeforeInsertDetailPesanan;
 
 -- Procedure, Function, Trigger
+
+DELIMITER //
+
+CREATE FUNCTION SplitString(str VARCHAR(255), delim VARCHAR(12), pos INT) RETURNS VARCHAR(255)
+BEGIN
+    RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
+           LENGTH(SUBSTRING_INDEX(str, delim, pos - 1)) + 1),
+           delim, '');
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE FullOrder(
+    OUT p_id_pesanan CHAR(5),
+    IN p_waktu_pesanan TIMESTAMP,
+    IN p_id_pembeli CHAR(5),
+    IN p_id_penjual CHAR(5),
+    IN p_jumlah_menu_list VARCHAR(255),
+    IN p_catatan_khusus VARCHAR(255),
+    IN p_menu_id_list VARCHAR(255),
+    IN p_item_count INT
+)
+BEGIN
+    DECLARE v_harga_menu DECIMAL(7,2);
+    DECLARE v_total_harga DECIMAL(10,2) DEFAULT 0;
+    DECLARE v_menu_id CHAR(5);
+    DECLARE v_jumlah_menu INT;
+    DECLARE v_index INT DEFAULT 1;
+    DECLARE v_detail_id CHAR(5);
+    DECLARE v_total_quantity INT DEFAULT 0;
+    DECLARE v_sub_index INT;
+
+    SELECT CONCAT('PS', LPAD(IFNULL(MAX(CAST(SUBSTRING(id_pesanan, 3) AS UNSIGNED)), 0) + 1, 3, '0'))
+    INTO p_id_pesanan
+    FROM Pesanan;
+
+    SELECT CONCAT('DP', LPAD(IFNULL(MAX(CAST(SUBSTRING(id_detail_pesanan, 3) AS UNSIGNED)), 0) + 1, 3, '0'))
+    INTO v_detail_id
+    FROM Detail_Pesanan;
+
+    INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli, penjual_ps_id_penjual)
+    VALUES (p_id_pesanan, p_waktu_pesanan, p_id_pembeli, p_id_penjual);
+
+    
+    INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
+    VALUES (v_detail_id, v_total_quantity, v_total_harga, p_catatan_khusus, 'Baru', p_id_pesanan);
+
+
+    WHILE v_index <= p_item_count DO
+        SET v_menu_id = SplitString(p_menu_id_list, ',', v_index);
+        SET v_jumlah_menu = CAST(SplitString(p_jumlah_menu_list, ',', v_index) AS INT);
+
+        SELECT harga_menu INTO v_harga_menu
+        FROM Menu
+        WHERE id_menu = v_menu_id
+        LIMIT 1;
+
+        SET v_total_harga = v_total_harga + CalculateTotalPrice(v_jumlah_menu, v_harga_menu);
+        SET v_total_quantity = v_total_quantity + v_jumlah_menu;
+
+        SET v_sub_index = 1;
+        WHILE v_sub_index <= v_jumlah_menu DO
+            INSERT INTO Pesanan_Menu (pesanan_pm_id_pesanan, menu_id_menu)
+            VALUES (p_id_pesanan, v_menu_id);
+            SET v_sub_index = v_sub_index + 1;
+        END WHILE;
+
+        SET v_index = v_index + 1;
+
+    END WHILE;
+
+
+END //
+DELIMITER ;
+
+
+CALL FullOrder(
+    @id_pesanan_out,
+    '2024-06-16 20:00:00', 
+    'C0022', 
+    'P0002', 
+    '2,1,3', 
+    'ga enak',
+    'M0012,M0002,M0003', 
+    3 
+);
+
+
+
 CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
 BEGIN
     UPDATE Menu
