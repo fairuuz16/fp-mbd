@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Sinarqya FoodCourt</title>
+    <title>Sinarqya FoodCourt</title>
     <style>
-        .logo {
+        .logo{
             margin-left: 50px;
         }
-        .topright {
+        .topright{
             margin-right: 50px;
         }
         body {
@@ -39,7 +39,39 @@
             color: black;
         }
         .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 50px;
+        }
+        .content .text {
+            flex: 1;
+            text-align: left;
+        }
+        .content .text h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .content .text p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .content .text button {
+            padding: 15px 30px;
+            font-size: 1em;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .content .image {
+            flex: 1;
+            text-align: right;
+        }
+        .content .image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
         footer {
             margin-top: 50px;
@@ -54,38 +86,9 @@
             color: black;
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <h2>Sinarqya</h2>
-        </div>
-        <div class="topright">
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="about.html">About Us</a>
-                <a href="help.html">Help</a>
-                <a href="profile.html">Profile</a>
-                <button onclick="location.href='order.html'">Order Now</button>
-            </nav>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="content">
-            <h1>Profile</h1>
-            <p>Welcome to your profile page. Here you can manage your account details and view your order history.</p>
-        </div>
-    </div>
-
-    <footer>
-        <p>Sinarqya</p>
-        <div class="social">
-            <a href="#"><img src="https://via.placeholder.com/20" alt="Facebook"></a>
-            <a href="#"><img src="https://via.placeholder.com/20" alt="LinkedIn"></a>
-            <a href="#"><img src="https://via.placeholder.com/20" alt="YouTube"></a>
-            <a href="#"><img src="https://via.placeholder.com/20" alt="Instagram"></a>
-        </div>
-    </footer>
-</body>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
