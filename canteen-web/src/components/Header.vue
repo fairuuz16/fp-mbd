@@ -1,15 +1,13 @@
 <template>
     <header>
       <div class="logo">
-        <h2>Sinargya</h2>
+        <router-link to="/"><h2>Sinargya</h2></router-link>
       </div>
       <div class="topright">
         <nav>
             <router-link to="/">Home</router-link>
             <router-link to="/about">About Us</router-link>
-            <router-link to="/help">Help</router-link>
             <router-link to="/profile">Profile</router-link>
-
           <button @click="goToOrder">Order Now</button>
         </nav>
       </div>
@@ -44,7 +42,7 @@
     margin-right: 50px;
   }
   
-  header a {
+  header router-link {
     margin: 0 15px;
     text-decoration: none;
     color: black;

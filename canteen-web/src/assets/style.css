@@ -1,3 +1,26 @@
+.register-container {
+    padding: 20px;
+}
+
+.register-form-container {
+    margin: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.error-mess {
+    color: red;
+    font-size: 0.875em;
+}
+
 .logo {
     margin-left: 50px;
 }
@@ -31,6 +54,7 @@ header {
     padding: 20px 0;
 }
 
+
 header a, header router-link {
     margin: 0 15px;
     text-decoration: none;
@@ -62,6 +86,15 @@ header a, header router-link {
 .content .text button {
     padding: 15px 30px;
     font-size: 1em;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.button{
+    padding: 10px 20px;
+    font-size: small;
     background-color: black;
     color: white;
     border: none;
