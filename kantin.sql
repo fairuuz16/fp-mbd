@@ -976,8 +976,10 @@ VALUES
 
 SELECT * FROM Detail_Pesanan;
 
-DROP PROCEDURE IF EXISTS UpdateStokMenu;
 DROP PROCEDURE IF EXISTS FullOrder;
+DROP PROCEDURE IF EXISTS UpdateStokMenu;
+DROP PROCEDURE IF EXISTS UpdateOrderStatus;
+DROP FUNCTION IF EXISTS SplitString;
 DROP FUNCTION IF EXISTS CalculateTotalPrice;
 DROP TRIGGER IF EXISTS AfterInsertPesananMenu;
 DROP TRIGGER IF EXISTS BeforeInsertDetailPesanan;
@@ -995,7 +997,6 @@ END //
 
 DELIMITER ;
 
-
 DELIMITER //
 
 CREATE PROCEDURE FullOrder(
@@ -1010,29 +1011,24 @@ CREATE PROCEDURE FullOrder(
 )
 BEGIN
     DECLARE v_harga_menu DECIMAL(7,2);
-    DECLARE v_total_harga DECIMAL(10,2) DEFAULT 0;
     DECLARE v_menu_id CHAR(5);
     DECLARE v_jumlah_menu INT;
     DECLARE v_index INT DEFAULT 1;
     DECLARE v_detail_id CHAR(5);
     DECLARE v_total_quantity INT DEFAULT 0;
     DECLARE v_sub_index INT;
+    DECLARE v_total_harga DECIMAL(7,2);
+
+    START TRANSACTION;
 
     SELECT CONCAT('PS', LPAD(IFNULL(MAX(CAST(SUBSTRING(id_pesanan, 3) AS UNSIGNED)), 0) + 1, 3, '0'))
     INTO p_id_pesanan
     FROM Pesanan;
 
-    SELECT CONCAT('DP', LPAD(IFNULL(MAX(CAST(SUBSTRING(id_detail_pesanan, 3) AS UNSIGNED)), 0) + 1, 3, '0'))
-    INTO v_detail_id
-    FROM Detail_Pesanan;
-
     INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli, penjual_ps_id_penjual)
     VALUES (p_id_pesanan, p_waktu_pesanan, p_id_pembeli, p_id_penjual);
 
-    
-    INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
-    VALUES (v_detail_id, v_total_quantity, v_total_harga, p_catatan_khusus, 'Baru', p_id_pesanan);
-
+    SET v_total_harga = 0;
 
     WHILE v_index <= p_item_count DO
         SET v_menu_id = SplitString(p_menu_id_list, ',', v_index);
@@ -1043,8 +1039,8 @@ BEGIN
         WHERE id_menu = v_menu_id
         LIMIT 1;
 
-        SET v_total_harga = v_total_harga + CalculateTotalPrice(v_jumlah_menu, v_harga_menu);
         SET v_total_quantity = v_total_quantity + v_jumlah_menu;
+        SET v_total_harga = v_total_harga + (v_harga_menu * v_jumlah_menu);
 
         SET v_sub_index = 1;
         WHILE v_sub_index <= v_jumlah_menu DO
@@ -1054,13 +1050,19 @@ BEGIN
         END WHILE;
 
         SET v_index = v_index + 1;
-
     END WHILE;
 
+    SELECT CONCAT('DP', LPAD(IFNULL(MAX(CAST(SUBSTRING(id_detail_pesanan, 3) AS UNSIGNED)), 0) + 1, 3, '0'))
+    INTO v_detail_id
+    FROM Detail_Pesanan;
+
+    INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
+    VALUES (v_detail_id, v_total_quantity, v_total_harga, p_catatan_khusus, 'Baru', p_id_pesanan);
+
+    COMMIT;
 
 END //
 DELIMITER ;
-
 
 CALL FullOrder(
     @id_pesanan_out,
@@ -1068,18 +1070,41 @@ CALL FullOrder(
     'C0022', 
     'P0002', 
     '2,1,3', 
-    'ga enak',
+    'Tidak ada',
     'M0012,M0002,M0003', 
     3 
 );
 
-
+CALL FullOrder(
+    @id_pesanan_out,
+    '2024-06-20 15:30:42', 
+    'C0001', 
+    'P0001', 
+    '1,2', 
+    'Tanpa gula',
+    'M0001,M0002', 
+    2
+);
 
 CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
 BEGIN
     UPDATE Menu
     SET stok_menu = stok_menu - jumlah
     WHERE id_menu = menu_id;
+END
+
+CREATE PROCEDURE UpdateOrderStatus(
+    IN p_id_pesanan CHAR(5),
+    IN p_status_baru VARCHAR(100),
+    OUT p_status_lama VARCHAR(100)
+)
+BEGIN
+    SELECT status_pesanan INTO p_status_lama FROM Detail_Pesanan WHERE pesanan_dp_id_pesanan = p_id_pesanan;
+    IF p_status_lama IS NOT NULL AND p_status_lama <> p_status_baru THEN
+        UPDATE Detail_Pesanan
+        SET status_pesanan = p_status_baru
+        WHERE pesanan_dp_id_pesanan = p_id_pesanan;
+    END IF;
 END
 
 CREATE FUNCTION CalculateTotalPrice(jumlah INT, harga DECIMAL(7,2)) RETURNS DECIMAL(7,2)
@@ -1110,7 +1135,6 @@ BEGIN
     SET NEW.total_harga = CalculateTotalPrice(NEW.jumlah_menu, harga);
 END
 
-
 -- Check index
 SHOW INDEXES FROM Penjual;
 SHOW INDEXES FROM Pembeli;
@@ -1125,6 +1149,7 @@ CREATE INDEX idx_menu_nama ON Menu (nama_menu);
 CREATE INDEX idx_detail_pesanan_status ON Detail_Pesanan (status_pesanan);
 CREATE INDEX idx_pesanan_waktu ON Pesanan (waktu_pesanan);
 CREATE INDEX idx_penjual_status ON Penjual (status_penjual);
+
 -- Lihat hasil eksekusi query (trial index)
 EXPLAIN SELECT * FROM Menu WHERE nama_menu LIKE '%Rendang%';
 EXPLAIN SELECT * FROM Detail_Pesanan WHERE status_pesanan = 'Siap';
