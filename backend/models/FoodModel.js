@@ -3,7 +3,7 @@ import db from "../config/database.js";
 
 // get all Foods
 export const getFoods = (result) => {
-    db.query("SELECT * FROM food", (err,results)=> {
+    db.query("SELECT * FROM Menu", (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);
@@ -15,7 +15,7 @@ export const getFoods = (result) => {
 
 // get single Foods
 export const getFoodById = (id,result) => {
-    db.query("SELECT * FROM food WHERE food_id = ?",[id], (err,results)=> {
+    db.query("SELECT * FROM Menu WHERE id_menu = ?",[id], (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);
@@ -27,7 +27,7 @@ export const getFoodById = (id,result) => {
 
 // insert Food
 export const insertFood = (data,result) => {
-    db.query("INSERT INTO food SET ?",data, (err,results)=> {
+    db.query("INSERT INTO Menu SET ?",data, (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);
@@ -39,7 +39,7 @@ export const insertFood = (data,result) => {
 
 // update Food
 export const updateFoodById = (data,id,result) => {
-    db.query("UPDATE food SET food_name = ?, food_price = ? WHERE food_id = ?",[data.food_name, data.food_price, id], (err,results)=> {
+    db.query("UPDATE Menu SET nama_menu = ?, harga_menu = ? WHERE id_menu = ?",[data.nama_menu, data.harga_menu, id], (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);
@@ -52,7 +52,7 @@ export const updateFoodById = (data,id,result) => {
 
 // delete Food
 export const deleteFoodById = (id,result) => {
-    db.query("DELETE FROM food WHERE food_id = ?",[id], (err,results)=> {
+    db.query("DELETE FROM Menu WHERE id_menu = ?",[id], (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);

@@ -1,5 +1,6 @@
--- Active: 1718165534569@@127.0.0.1@3306
--- Active: 1702947609752@@127.0.0.1@3306
+-- Active: 1717655547271@@127.0.0.1@3306@fp_mbd
+
+DROP DATABASE IF EXISTS fp_mbd;
 CREATE DATABASE fp_mbd
     DEFAULT CHARACTER SET = 'utf8mb4';
 
@@ -11,7 +12,7 @@ CREATE TABLE Penjual (
     email_penjual VARCHAR(100),
     password_penjual VARCHAR(100),
     status_penjual INT
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Pembeli (
     id_pembeli CHAR(5) PRIMARY KEY,
