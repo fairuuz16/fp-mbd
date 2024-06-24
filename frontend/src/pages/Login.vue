@@ -85,8 +85,8 @@ export default {
                     this.errors.push("Incorrect email or password!")
                 }
                 else {
-                    if (this.matchUser.user_password === this.loginObj.pass) {
-                        this.matchUser.user_password = "";
+                    if (this.matchUser.password_pembeli === this.loginObj.pass) {
+                        this.matchUser.password_pembeli = "";
                         this.setUser(this.matchUser);
                         this.$router.push("/");
                     }
