@@ -37,6 +37,10 @@ CREATE TABLE Menu (
     stok_menu INT,
     harga_menu DECIMAL(7,2),
     jenis_menu VARCHAR(50),
+    vote_menu VARCHAR(100), -- best seller
+    status_menu VARCHAR(100), -- di menu 
+    diskon_menu VARCHAR(100), -- promo di page home + promotion
+    src_menu VARCHAR(100), -- link gambar
     penjual_me_id_penjual CHAR(5),
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
 );

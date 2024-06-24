@@ -2,47 +2,25 @@
     <div>
         <div class="home-main">
             <div class="content">
-                <span>welcome foodies</span>
-                <h3>Original taste from Mexico 😋</h3>
-                <p>We guarantee to use fresh food with the best quality. Customers will enjoy Mexican cuisine with
-                    explosive, sophisticated flavors.</p>
+                <span>Welcome foodies!</span>
+                <h3>Original taste from Indonesia 😋</h3>
+                <p>We guarantee the use of fresh, high-quality ingredients. Enjoy the rich, diverse flavors of Indonesian cuisine at our food court, where every dish brings a taste of Indonesia to your table.</p>
                 <router-link @click="scrollToTop()" to="/menu" class="btn">order now</router-link>
             </div>
             <div class="image">
                 <img src="../assets/images/b.png" alt="" class="home-img">
-                <img src="../assets/images/a.png" alt="" class="home-parallax-img">
             </div>
         </div>
 
 
         <div class="home-category">
             <router-link @click="scrollToTop()" to="/menu" class="box">
-                <img src="../assets/images/taco-img.png" alt="">
-                <h3>taco</h3>
+                <img src="../assets/images/cat-food.png" alt="">
+                <h3>food</h3>
             </router-link>
 
             <router-link @click="scrollToTop()" to="/menu" class="box">
-                <img src="../assets/images/burrito-img.png" alt="">
-                <h3>burrito</h3>
-            </router-link>
-
-            <router-link @click="scrollToTop()" to="/menu" class="box">
-                <img src="../assets/images/nachos-img.png" alt="">
-                <h3>nachos</h3>
-            </router-link>
-
-            <router-link @click="scrollToTop()" to="/menu" class="box">
-                <img src="../assets/images/salad-img.png" alt="">
-                <h3>sides</h3>
-            </router-link>
-
-            <router-link @click="scrollToTop()" to="/menu" class="box">
-                <img src="../assets/images/dessert-img.png" alt="">
-                <h3>dessert</h3>
-            </router-link>
-
-            <router-link @click="scrollToTop()" to="/menu" class="box">
-                <img src="../assets/images/coca-img.png" alt="">
+                <img src="../assets/images/cat-drink.png" alt="">
                 <h3>drink</h3>
             </router-link>
         </div>
