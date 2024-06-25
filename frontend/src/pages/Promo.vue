@@ -87,14 +87,14 @@
                             </td>
                             <td>
                                 <span class="bg-earth activity-name">Afternoon Snack</span>
-                                <div class="activity-time">Discount 20% Nachos & Dessert </div>
+                                <div class="activity-time">Discount 5% drink </div>
                             </td>
                             <td class="bg-light-gray">
 
                             </td>
                             <td>
                                 <span class="bg-earth activity-name">Afternoon Snack</span>
-                                <div class="activity-time">Discount 20% Nachos & Dessert </div>
+                                <div class="activity-time">Discount 5% drink </div>
                             </td>
                             <td class="bg-light-gray">
 
@@ -136,72 +136,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="promotions-item">
-            <div class="content-box">
-                <img src="../assets/images/dis-1.jpg" alt="">
-            </div>
-
-            <div class="description">
-                <h3>party taco upto 50% off</h3>
-                <ul>
-                    <li>
-                        <p>Order more than 10 tacos will get discount 50%</p>
-                    </li>
-                    <li>
-                        <p>Only weekend night</p>
-                    </li>
-                    <li>
-                        <p>Only online payment method</p>
-                    </li>
-                </ul>
-                <router-link @click="scrollToTop()" to="/menu" class="btn">order now</router-link>
-            </div>
-        </div>
-
-        <div class="promotions-item">
-            <div class="content-box">
-                <img src="../assets/images/dis-2.png" alt="">
-            </div>
-
-            <div class="description">
-                <h3>Happy lunch upto 25% extra</h3>
-                <ul>
-                    <li>
-                        <p>Free up size burrito</p>
-                    </li>
-                    <li>
-                        <p>Only lunch from 10am to 2pm</p>
-                    </li>
-                    <li>
-                        <p>Only delivery</p>
-                    </li>
-                </ul>
-                <router-link @click="scrollToTop()" to="/menu" class="btn">order now</router-link>
-            </div>
-        </div>
-
-        <div class="promotions-item">
-            <div class="content-box">
-                <img src="../assets/images/dis-3.jpg" alt="">
-            </div>
-
-            <div class="description">
-                <h3>New drink 100% Cashback</h3>
-                <ul>
-                    <li>
-                        <p>Free 01 Michelada when total bill more than $20</p>
-                    </li>
-                    <li>
-                        <p>From 23/11/2021 to 12/12/2021</p>
-                    </li>
-                    <li>
-                        <p>Only online payment method</p>
-                    </li>
-                </ul>
-                <router-link @click="scrollToTop()" to="/menu" class="btn">order now</router-link>
             </div>
         </div>
 
