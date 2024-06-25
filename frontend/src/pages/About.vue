@@ -1,7 +1,7 @@
 <template>
     <section class="about-section">
         <div class="heading">
-            <span>about us</span>
+            <span>About Us</span>
             <h3>good quality dishes</h3>
         </div>
 
@@ -28,16 +28,16 @@
 
         <div class="row gallery">
             <div class="wrapper">
-                <img src="../assets/images/taco/taco-2.jpg" alt="">
-                <img src="../assets/images/taco/taco-4.jpg" alt="">
-                <img src="../assets/images/burrito/burrito-6.jpg" alt="">
-                <img src="../assets/images/burrito/burrito-2.jpg" alt="">
-                <img src="../assets/images/burrito/burrito-3.jpg" alt="">
-                <img src="../assets/images/nachos/nachos-1.jpg" alt="">
-                <img src="../assets/images/nachos/nachos-2.jpg" alt="">
-                <img src="../assets/images/nachos/nachos-3.jpg" alt="">
-                <img src="../assets/images/dessert/dessert-2.jpg" alt="">
-                <img src="../assets/images/dessert/dessert-6.jpg" alt="">
+                <img src="../assets/images/about/taco-2.jpg" alt="">
+                <img src="../assets/images/about/taco-4.jpg" alt="">
+                <img src="../assets/images/about/burrito-6.jpg" alt="">
+                <img src="../assets/images/about/burrito-2.jpg" alt="">
+                <img src="../assets/images/about/burrito-3.jpg" alt="">
+                <img src="../assets/images/about/nachos-1.jpg" alt="">
+                <img src="../assets/images/about/nachos-2.jpg" alt="">
+                <img src="../assets/images/about/nachos-3.jpg" alt="">
+                <img src="../assets/images/about/dessert-2.jpg" alt="">
+                <img src="../assets/images/about/dessert-6.jpg" alt="">
             </div>
         </div>
     </section>
