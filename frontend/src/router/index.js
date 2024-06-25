@@ -5,7 +5,6 @@ import Home from '../pages/Home.vue';
 import About from '../pages/About.vue';
 import Promo from '../pages/Promo.vue';
 import Menu from '../pages/Menu.vue';
-import Table from '../pages/Table.vue';
 import Cart from '../pages/Cart.vue';
 import Checkout from '../pages/Checkout.vue';
 import Thank from '../pages/Thank.vue';
@@ -34,11 +33,6 @@ const routes = [
     path: "/menu",
     name: "Menu",
     component: Menu,
-  },
-  {
-    path: "/table",
-    name: "Table",
-    component: Table,
   },
   {
     path: "/cart",

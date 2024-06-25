@@ -27,13 +27,14 @@ export const getUserByEmail = (data,result) => {
 };
 
 // insert User
-export const insertUser = (data,result) => {
-    db.query("INSERT INTO Pembeli SET ?",data, (err,results)=> {
-        if (err){
+export const insertUser = (data, result) => {
+    db.query("INSERT INTO Pembeli SET ?", data, (err, results) => {
+        if (err) {
             console.log(err);
-            result(err,null);
-        }else{
-            result(null,results[0]);
+            result(err, null);
+        } else {
+            // Return the newly inserted user ID and the data
+            result(null, { id: results.insertId, ...data });
         }
     });
 };

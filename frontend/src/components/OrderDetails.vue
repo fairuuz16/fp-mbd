@@ -72,6 +72,7 @@ export default {
         async getAllFoods() {
             if (this.bill) {
                 let data = (await axios.get('/billdetails/' + this.bill)).data;
+                console.log(data);
                 data.forEach(element => {
                     this.allFoodsInBill.push(element.food_id);
                     this.item_qty.push(element.item_qty)

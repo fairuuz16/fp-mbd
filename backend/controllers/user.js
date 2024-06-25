@@ -30,17 +30,20 @@ export const showAUser = (req,res)=>{
 };
 
 // create user
-export const createAccount=(req,res)=>{
-    const data = req.body;
-    insertUser(data,(err,results)=> {
+export const createAccount = (req, res) => {
+    const data = {
+        nama_pembeli: req.body.name,
+        email_pembeli: req.body.email,
+        password_pembeli: req.body.pass
+    };
+    insertUser(data, (err, results) => {
         if (err) {
-            res.send(err);
-        }else {
+            res.status(500).send(err);
+        } else {
             res.json(results);
         }
     });
 };
-
 
 
 
