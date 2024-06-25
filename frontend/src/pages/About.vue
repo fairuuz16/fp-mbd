@@ -9,13 +9,15 @@
             <div class="about-content">
                 <img src="../assets/images/taco-chefcartoon.png" alt="">
                 <div class="about-content-text">
-                    <p>Our restaurant QFood was founded by Quang (a 5 Michelin stars chef) in 2002 in Vietnam. After
-                        that, thanks to the support of our customers, our brand has been popularized globally in markets
-                        such as Australia, USA, Canada, UK, France, Germany, Belgium, Russia, China, Japan,
-                        Singapore, ... Mexican-style meals, the products that we deliver to customers are always the
-                        best quality products.</p>
-                    <p>Customers can eat at the restaurant to experience the Mexican atmosphere or can order food to be
-                        delivered to their homes.</p>
+                    <p>Welcome to SCourt, your digital gateway to a seamless dining experience! 
+                        Our platform is designed to revolutionize the way you order and enjoy your favorite food effortlessly. 
+                        With SCourt, you can browse menus, place orders, and make payments—all without the need to visit each restaurant directly.
+                    </p>
+                    <p>Here, we aim to provide a convenient and efficient dining solution. 
+                        Simply use our website to explore a wide variety of cuisines from multiple restaurants, place your order, and pay online. 
+                        When your meal is ready, just pick it up from the designated counter and enjoy!
+                    </p>
+                    <p>SCourt - Simplifying your food court experience, one click at a time.</p>
                 </div>
             </div>
         </div>

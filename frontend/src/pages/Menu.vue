@@ -111,9 +111,9 @@
                         <input type="button" id="allFilterFoodBtn" name="allFilterFoodBtn" value="all"
                             class="menu-tab-item" @click="filterFoodBtn($event)" />
                         <input type="button" id="foodFilterFoodBtn" name="foodFilterFoodBtn" class="menu-tab-item"
-                            value="food" @click="filterFoodBtn($event)" />
+                            value="Makanan" @click="filterFoodBtn($event)" />
                         <input type="button" id="drinkFilterFoodBtn" name="drinkFilterFoodBtn" class="menu-tab-item"
-                            value="drink" @click="filterFoodBtn($event)" />
+                            value="Minuman" @click="filterFoodBtn($event)" />
                     </div>
                 </div>
 
@@ -126,8 +126,15 @@
                             </div>
                             <div class="content">
                                 <h3>{{ f.nama_menu }}</h3>
-                                <div class="vote">
-                                    <p> ({{ f.vote_menu }}) </p>
+                                <div class="stars">
+                                    <div v-for="s in Math.floor(parseFloat(f.star_menu))" :key="s" class="d-inline">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div v-if="parseFloat(f.star_menu) - Math.floor(parseFloat(f.star_menu)) == 0.5"
+                                        class="d-inline">
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span> ({{ f.vote_menu }}) </span>
                                 </div>
                                 <div class="price">
                                     Rp.{{ parseFloat(f.harga_menu) - parseFloat(f.diskon_menu) }}
@@ -182,7 +189,7 @@ export default {
             showDropDown: false,
             sendId: null,
 
-            perPage: 8,
+            perPage: 6,
             pageNum: 0,
             previousCategoryClicked: "",
             previousPriceClicked: "",
