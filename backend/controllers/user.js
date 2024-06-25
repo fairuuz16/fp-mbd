@@ -30,21 +30,6 @@ export const showAUser = (req,res)=>{
 };
 
 // create user
-// export const createAccount = (req, res) => {
-//     const data = {
-//         nama_pembeli: req.body.name,
-//         email_pembeli: req.body.email,
-//         password_pembeli: req.body.pass
-//     };
-//     insertUser(data, (err, results) => {
-//         if (err) {
-//             res.status(500).send(err);
-//         } else {
-//             res.json(results);
-//         }
-//     });
-// };
-
 export const createAccount = (req, res) => {
     const data = req.body;
     console.log("Data received in backend:", data);  // Log data untuk debugging

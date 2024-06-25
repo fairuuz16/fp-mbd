@@ -145,10 +145,15 @@ export default {
                         nama_pembeli: this.registerObj.name,
                         email_pembeli: this.registerObj.email,
                         password_pembeli: this.registerObj.pass
+                    };
+                    console.log("Data before sending:", data);  // Menampilkan data di konsol sebelum mengirim
+                    try {
+                        const response = await axios.post("/users/", data);
+                        console.log("Server response:", response);  // Menampilkan respons server di konsol
+                        this.$router.push("/login");
+                    } catch (error) {
+                        console.error("Error while sending data:", error);  // Menampilkan error jika pengiriman gagal
                     }
-                    console.log(data);
-                    await axios.post("/users/", data);
-                    this.$router.push("/login");
                 }
             }
         }
