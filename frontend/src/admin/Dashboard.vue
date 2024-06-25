@@ -12,8 +12,6 @@
                     <tr>
                         <th>Bill Id</th>
                         <th>User Id</th>
-                        <th>Phone</th>
-                        <th>Address</th>
                         <th>When</th>
                         <th>Paid</th>
                         <th>Total</th>
@@ -25,8 +23,6 @@
                     <tr v-for="(b) in filterBills.slice().reverse()" :key="b.bill_id">
                         <td>{{ b.bill_id }}</td>
                         <td>{{ b.user_id }}</td>
-                        <td>{{ b.bill_phone }}</td>
-                        <td>{{ b.bill_address }}</td>
                         <td>{{ b.bill_when }}</td>
                         <td>{{ b.bill_paid }}</td>
                         <td>${{ b.bill_total }}</td>

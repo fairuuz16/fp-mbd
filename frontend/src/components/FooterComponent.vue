@@ -1,36 +1,19 @@
 <template>
     <div class="footer">
-        <div class="news-letter">
-            <h3>Receive event notifications</h3>
-            <form onsubmit="event.preventDefault();">
-                <input type="email" name="useremailreceiveinfo" placeholder="enter your email"
-                    id="useremailreceiveinfo">
-                <input type="submit" value="subscribe">
-            </form>
-        </div>
-
         <div class="box-container">
 
             <div class="box">
                 <h3>our menu</h3>
-                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> taco</router-link>
-                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> burrito</router-link>
-                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> nachos</router-link>
-                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> side food
-                </router-link>
-                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> dessert</router-link>
-                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> drink</router-link>
+                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> Food</router-link>
+                <router-link @click="scrollToTop()" to="/menu"><i class="fas fa-arrow-right"></i> Drink</router-link>
             </div>
 
             <div class="box">
                 <h3>quick links</h3>
                 <router-link @click="scrollToTop()" to="/"> <i class="fas fa-arrow-right"></i> home</router-link>
                 <router-link @click="scrollToTop()" to="/about"> <i class="fas fa-arrow-right"></i> about</router-link>
-                <router-link @click="scrollToTop()" to="/promotions"> <i class="fas fa-arrow-right"></i> promotions
-                </router-link>
+                <router-link @click="scrollToTop()" to="/promotions"> <i class="fas fa-arrow-right"></i> promotion</router-link>
                 <router-link @click="scrollToTop()" to="/menu"> <i class="fas fa-arrow-right"></i> menu</router-link>
-                <router-link @click="scrollToTop()" to="/table"> <i class="fas fa-arrow-right"></i> book a table
-                </router-link>
             </div>
 
             <div class="box">
@@ -51,7 +34,7 @@
 
             <div class="box">
                 <h3>opening hours</h3>
-                <p>everyday : 7:00am to 10:00pm</p>
+                <p>10:00AM - 9:00PM (everyday)</p>
 
             </div>
 

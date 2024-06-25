@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <input type="submit" value="login now" class="btn">
-                    <p>don't have an account? <router-link @click="scrollToTop()" to="/register">create one
+                    <p>don't have an account? <router-link @click="scrollToTop()" to="/register">create
                         </router-link>
                     </p>
                 </div>

@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-sm-4 col-12 filter-box">
                 <div class="row search-box">
-                    <input type="text" class="search-input" v-model="foodObj.name" placeholder="Search.." />
+                    <input type="text" class="search-input" v-model="foodObj.name" placeholder="  Search.." />
                 </div>
 
                 <div class="row filter-drop-down">
@@ -28,41 +28,30 @@
                                 <button class="unselect-btn" @click="unselectStatusBtn($event)"
                                     value="Best Seller">X</button></label>
                         </li>
-
-
-                        <li>
-                            <input type="button" name="cbStatus" id="ooStatus" value="Online Only" hidden
-                                @click="filterStatusBtn($event)" />
-                            <label for="ooStatus" class="d-flex justify-content-between">Online Only <button
-                                    class="unselect-btn" @click="unselectStatusBtn($event)"
-                                    value="Online Only">X</button></label>
-                        </li>
-
-
-                        <li>
-                            <input type="button" name="cbStatus" id="soStatus" value="Sale Off" hidden
-                                @click="filterStatusBtn($event)" />
-                            <label for="soStatus" class="d-flex justify-content-between">Sale Off <button
-                                    class="unselect-btn" @click="unselectStatusBtn($event)"
-                                    value="Sale Off">X</button></label>
-                        </li>
-
-
+                        
                         <li>
                             <input type="button" name="cbStatus" id="sdStatus" value="Seasonal Dishes" hidden
-                                @click="filterStatusBtn($event)" />
+                            @click="filterStatusBtn($event)" />
                             <label for="sdStatus" class="d-flex justify-content-between">Seasonal Dishes <button
-                                    class="unselect-btn" @click="unselectStatusBtn($event)"
-                                    value="Seasonal Dishes">X</button></label>
+                                class="unselect-btn" @click="unselectStatusBtn($event)"
+                                value="Seasonal Dishes">X</button></label>
                         </li>
-
-
+                            
+                            
                         <li>
                             <input type="button" name="cbStatus" id="ndStatus" value="New Dishes" hidden
-                                @click="filterStatusBtn($event)" />
+                            @click="filterStatusBtn($event)" />
                             <label for="ndStatus" class="d-flex justify-content-between">New Dishes <button
+                                class="unselect-btn" @click="unselectStatusBtn($event)"
+                                value="New Dishes">X</button></label>
+                        </li>
+                                
+                        <li>
+                            <input type="button" name="cbStatus" id="reStatus" value="Regular" hidden
+                                @click="filterStatusBtn($event)" />
+                            <label for="reStatus" class="d-flex justify-content-between">Regular <button
                                     class="unselect-btn" @click="unselectStatusBtn($event)"
-                                    value="New Dishes">X</button></label>
+                                    value="Regular">X</button></label>
                         </li>
 
                     </ul>
@@ -76,37 +65,37 @@
                 <div class="row filter-section">
                     <ul class="filter-option">
                         <li>
-                            <input type="button" name="rPrice" id="rtfPrice" value="2,5" hidden
+                            <input type="button" name="rPrice" id="ltPrice" value="10" hidden
                                 @click="filterPriceBtn($event)" />
-                            <label for="rtfPrice" class="d-flex justify-content-between">$2 - $5 <button
+                            <label for="ltPrice" class="d-flex justify-content-between">{{ "<" }} Rp.10000 <button
                                     class="unselect-btn" @click="unselectPriceBtn($event)">X</button></label>
                         </li>
 
                         <li>
-                            <input type="button" name="rPrice" id="rftPrice" value="5,10" hidden
+                            <input type="button" name="rPrice" id="rtfPrice" value="10,15" hidden
                                 @click="filterPriceBtn($event)" />
-                            <label for="rftPrice" class="d-flex justify-content-between">$5 - $10 <button
+                            <label for="rtfPrice" class="d-flex justify-content-between">Rp.10000 - Rp.15000 <button
                                     class="unselect-btn" @click="unselectPriceBtn($event)">X</button></label>
                         </li>
 
                         <li>
-                            <input type="button" name="rPrice" id="rttPrice" value="10,12" hidden
+                            <input type="button" name="rPrice" id="rftPrice" value="15,20" hidden
                                 @click="filterPriceBtn($event)" />
-                            <label for="rttPrice" class="d-flex justify-content-between">$10 - $12 <button
+                            <label for="rftPrice" class="d-flex justify-content-between">Rp.15000 - Rp.20000 <button
                                     class="unselect-btn" @click="unselectPriceBtn($event)">X</button></label>
                         </li>
 
                         <li>
-                            <input type="button" name="rPrice" id="mtPrice" value="12" hidden
+                            <input type="button" name="rPrice" id="rttPrice" value="20,25" hidden
                                 @click="filterPriceBtn($event)" />
-                            <label for="mtPrice" class="d-flex justify-content-between">{{ ">" }} $12 <button
+                            <label for="rttPrice" class="d-flex justify-content-between">Rp.20000 - Rp.25000 <button
                                     class="unselect-btn" @click="unselectPriceBtn($event)">X</button></label>
                         </li>
 
                         <li>
-                            <input type="button" name="rPrice" id="ltPrice" value="2" hidden
+                            <input type="button" name="rPrice" id="mtPrice" value="25" hidden
                                 @click="filterPriceBtn($event)" />
-                            <label for="ltPrice" class="d-flex justify-content-between">{{ "<" }} $2 <button
+                            <label for="mtPrice" class="d-flex justify-content-between">{{ ">" }} Rp.25000 <button
                                     class="unselect-btn" @click="unselectPriceBtn($event)">X</button></label>
                         </li>
 
@@ -114,29 +103,6 @@
                     <hr />
                 </div>
 
-
-                <div class="row filter-heading">
-                    <h1>Type</h1>
-                </div>
-
-                <div class="row filter-section">
-                    <ul class="filter-option">
-                        <li>
-                            <input type="button" name="rType" id="mType" value="meat" hidden
-                                @click="filterTypeBtn($event)" />
-                            <label for="mType" class="d-flex justify-content-between">meat<button class="unselect-btn"
-                                    @click="unselectTypeBtn($event)">X</button></label>
-                        </li>
-
-                        <li>
-                            <input type="button" name="rType" id="vType" value="vegan" hidden
-                                @click="filterTypeBtn($event)" />
-                            <label for="vType" class="d-flex justify-content-between">vegan<button class="unselect-btn"
-                                    @click="unselectTypeBtn($event)">X</button></label>
-                        </li>
-
-                    </ul>
-                </div>
             </div>
 
             <div class="col-sm-8">
@@ -144,16 +110,8 @@
                     <div class="menu-tabs">
                         <input type="button" id="allFilterFoodBtn" name="allFilterFoodBtn" value="all"
                             class="menu-tab-item" @click="filterFoodBtn($event)" />
-                        <input type="button" id="tacoFilterFoodBtn" name="tacoFilterFoodBtn" class="menu-tab-item"
-                            value="taco" @click="filterFoodBtn($event)" />
-                        <input type="button" id="burritoFilterFoodBtn" name="burritoFilterFoodBtn" class="menu-tab-item"
-                            value="burrito" @click="filterFoodBtn($event)" />
-                        <input type="button" id="nachosFilterFoodBtn" name="nachosFilterFoodBtn" class="menu-tab-item"
-                            value="nachos" @click="filterFoodBtn($event)" />
-                        <input type="button" id="sidesFilterFoodBtn" name="sidesFilterFoodBtn" class="menu-tab-item"
-                            value="sides" @click="filterFoodBtn($event)" />
-                        <input type="button" id="dessertFilterFoodBtn" name="dessertFilterFoodBtn" class="menu-tab-item"
-                            value="dessert" @click="filterFoodBtn($event)" />
+                        <input type="button" id="foodFilterFoodBtn" name="foodFilterFoodBtn" class="menu-tab-item"
+                            value="food" @click="filterFoodBtn($event)" />
                         <input type="button" id="drinkFilterFoodBtn" name="drinkFilterFoodBtn" class="menu-tab-item"
                             value="drink" @click="filterFoodBtn($event)" />
                     </div>
@@ -164,26 +122,16 @@
                         <div class="box">
                             <a href="" class="fas fa-heart"></a>
                             <div class="image">
-                                <img :src="require(`../assets/images/${f.food_src}`)" alt="" />
+                                <img :src="require(`../assets/images/${f.src_menu}`)" alt="" />
                             </div>
                             <div class="content">
-                                <h3>{{ f.food_name }}</h3>
-                                <div class="stars">
-                                    <div v-for="s in Math.floor(parseFloat(f.food_star))" :key="s" class="d-inline">
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <div v-if="parseFloat(f.food_star) - Math.floor(parseFloat(f.food_star)) == 0.5"
-                                        class="d-inline">
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span> ({{ f.food_vote }}) </span>
-                                </div>
-                                <div class="desc">
-                                    <p>{{ f.food_desc }}</p>
+                                <h3>{{ f.nama_menu }}</h3>
+                                <div class="vote">
+                                    <p> ({{ f.vote_menu }}) </p>
                                 </div>
                                 <div class="price">
-                                    ${{ parseFloat(f.food_price) - parseFloat(f.food_discount) }}
-                                    <span v-if="parseFloat(f.food_discount) != 0.00">${{ parseFloat(f.food_price)
+                                    Rp.{{ parseFloat(f.harga_menu) - parseFloat(f.diskon_menu) }}
+                                    <span v-if="parseFloat(f.diskon_menu) != 0.00">Rp.{{ parseFloat(f.harga_menu)
                                     }}</span>
                                 </div>
                                 <button class="btn" @click="addItem(index)">Add to cart</button>
@@ -234,7 +182,7 @@ export default {
             showDropDown: false,
             sendId: null,
 
-            perPage: 6,
+            perPage: 8,
             pageNum: 0,
             previousCategoryClicked: "",
             previousPriceClicked: "",
@@ -246,10 +194,10 @@ export default {
         ...mapState(["allFoods"]),
 
         filterFoods: function () {
-            return this.allFoods.filter((f) => f.food_name.toLowerCase().match(this.foodObj.name.toLowerCase()) &&
-                (f.food_category.match(this.foodObj.category) || this.foodObj.category == "all" || this.foodObj.category == "") &&
+            return this.allFoods.filter((f) => f.nama_menu.toLowerCase().match(this.foodObj.name.toLowerCase()) &&
+                (f.jenis_menu.match(this.foodObj.category) || this.foodObj.category == "all" || this.foodObj.category == "") &&
                 (this.evaluatePrice(f, this.foodObj.price)) &&
-                f.food_type.toLowerCase().match(this.foodObj.type.toLowerCase()) &&
+                f.jenis_menu.toLowerCase().match(this.foodObj.type.toLowerCase()) &&
                 (this.evaluateStatus(f, this.foodObj.status)));
         },
         currentPageItems: function () {
@@ -274,9 +222,9 @@ export default {
         previous() {
             this.pageNum--;
         },
-        checkSale: function (food, statusArray) {
-            if (statusArray.includes("Sale Off")) {
-                if (parseFloat(food.food_discount) > 0) {
+        checkRegular: function (food, statusArray) {
+            if (statusArray.includes("Regular")) {
+                if (parseFloat(food.diskon_menu) > 0) {
                     return true;
                 }
                 else {
@@ -287,18 +235,7 @@ export default {
         },
         checkBest: function (food, statusArray) {
             if (statusArray.includes("Best Seller")) {
-                if (food.food_status.includes("best seller")) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return true;
-        },
-        checkOnl: function (food, statusArray) {
-            if (statusArray.includes("Online Only")) {
-                if (food.food_status.includes("online only")) {
+                if (food.status_menu.includes("best seller")) {
                     return true;
                 }
                 else {
@@ -309,7 +246,7 @@ export default {
         },
         checkSeason: function (food, statusArray) {
             if (statusArray.includes("Seasonal Dishes")) {
-                if (food.food_status.includes("seasonal dishes")) {
+                if (food.status_menu.includes("seasonal dishes")) {
                     return true;
                 }
                 else {
@@ -320,7 +257,7 @@ export default {
         },
         checkNew: function (food, statusArray) {
             if (statusArray.includes("New Dishes")) {
-                if (food.food_status.includes("new dishes")) {
+                if (food.status_menu.includes("new dishes")) {
                     return true;
                 }
                 else {
@@ -332,7 +269,7 @@ export default {
         evaluateStatus: function (food, statusArray) {
             this.pageNum = 0;
             if (statusArray.length != 0) {
-                if (this.checkSale(food, statusArray) && this.checkBest(food, statusArray) && this.checkNew(food, statusArray) && this.checkSeason(food, statusArray) && this.checkOnl(food, statusArray)) {
+                if (this.checkRegular(food, statusArray) && this.checkBest(food, statusArray) && this.checkNew(food, statusArray) && this.checkSeason(food, statusArray)) {
                     return food;
                 }
             }
@@ -342,29 +279,29 @@ export default {
         },
         evaluatePrice: function (food, priceRange) {
             this.pageNum = 0;
-            var cal = parseFloat(food.food_price) - parseFloat(food.food_discount);
-            if (priceRange == "2,5") {
-                if (2 <= cal && cal <= 5) {
+            var cal = parseFloat(food.harga_menu) - parseFloat(food.diskon_menu);
+            if (priceRange == "10,15") {
+                if (10000 <= cal && cal <= 15000) {
                     return food;
                 }
             }
-            else if (priceRange == "5,10") {
-                if (5 <= cal && cal <= 10) {
+            else if (priceRange == "15,20") {
+                if (15000 <= cal && cal <= 20000) {
                     return food;
                 }
             }
-            else if (priceRange == "10,12") {
-                if (10 <= cal && cal <= 12) {
+            else if (priceRange == "20,25") {
+                if (20000 <= cal && cal <= 25000) {
                     return food;
                 }
             }
-            else if (priceRange == "2") {
-                if (cal <= 2) {
+            else if (priceRange == "10") {
+                if (cal <= 10000) {
                     return food;
                 }
             }
-            else if (priceRange == "12") {
-                if (cal >= 12) {
+            else if (priceRange == "25") {
+                if (cal >= 25000) {
                     return food;
                 }
             }
@@ -372,6 +309,7 @@ export default {
                 return food;
             }
         },
+
         filterFoodBtn: function (e) {
             this.pageNum = 0;
             if (this.foodObj.category != e.target.value && this.previousCategoryClicked != "") {
@@ -442,7 +380,7 @@ export default {
             this.previousTypeClicked = "";
         },
         addItem: function (index) {
-            this.sendId = parseInt(this.currentPageItems[index].food_id);
+            this.sendId = parseInt(this.currentPageItems[index].id_menu);
             this.showQuickView = !this.showQuickView;
         },
 

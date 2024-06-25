@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <router-link @click="scrollToTop()" to="/" class="logo"><img src="../assets/images/taco-logo.png" alt="" />QFood
+        <router-link @click="scrollToTop()" to="/" class="logo"><img src="../assets/images/taco-logo.png" alt="" />SCourt
         </router-link>
 
         <nav class="navbar">
@@ -8,7 +8,6 @@
             <router-link @click="scrollToTop()" to="/about">about</router-link>
             <router-link @click="scrollToTop()" to="/promotions">promotions</router-link>
             <router-link @click="scrollToTop()" to="/menu">menu</router-link>
-            <router-link @click="scrollToTop()" to="/table">table</router-link>
         </nav>
 
         <div class="icons">

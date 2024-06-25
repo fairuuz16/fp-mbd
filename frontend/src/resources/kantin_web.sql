@@ -1,10 +1,10 @@
--- Active: 1718165534569@@127.0.0.1@3306@mbd_web
+-- Active: 1717655547271@@127.0.0.1@3306@fp_mbd
 
 DROP DATABASE IF EXISTS fp_mbd;
 CREATE DATABASE fp_mbd
     DEFAULT CHARACTER SET = 'utf8mb4';
 
-USE mbd_web;
+USE fp_mbd;
 
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
@@ -19,8 +19,7 @@ CREATE TABLE Pembeli (
     nama_pembeli VARCHAR(100),
     email_pembeli VARCHAR(100),
     password_pembeli VARCHAR(100)
-);
-
+) ENGINE=INNODB;
 
 CREATE TABLE Pegawai (
     nik CHAR(16) PRIMARY KEY,
@@ -29,7 +28,7 @@ CREATE TABLE Pegawai (
     password_pegawai VARCHAR(100),
     penjual_pg_id_penjual CHAR(5),
     FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Menu (
     id_menu CHAR(5) PRIMARY KEY,
@@ -38,13 +37,40 @@ CREATE TABLE Menu (
     stok_menu INT,
     harga_menu DECIMAL(7,2),
     jenis_menu VARCHAR(50),
-    vote_menu VARCHAR(100), -- best seller
+    vote_menu VARCHAR(100), -- seasonal/best seller
     status_menu VARCHAR(100), -- di menu 
     diskon_menu VARCHAR(100), -- promo di page home + promotion ?
     src_menu VARCHAR(100), -- link gambar
     penjual_me_id_penjual CHAR(5),
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
-);
+) ENGINE=INNODB;
+
+CREATE TABLE Pesanan (
+    id_pesanan CHAR(5) PRIMARY KEY,
+    waktu_pesanan TIMESTAMP,
+    pembeli_ps_id_pembeli INT,
+    penjual_ps_id_penjual CHAR(5),
+    FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli),
+    FOREIGN KEY (penjual_ps_id_penjual) REFERENCES Penjual(id_penjual)
+) ENGINE=INNODB;
+
+CREATE TABLE Pesanan_Menu (
+    pesanan_pm_id_pesanan CHAR(5),
+    menu_id_menu CHAR(5),
+    FOREIGN KEY (pesanan_pm_id_pesanan) REFERENCES Pesanan(id_pesanan),
+    FOREIGN KEY (menu_id_menu) REFERENCES Menu(id_menu)
+) ENGINE=INNODB;
+
+CREATE TABLE Detail_Pesanan (
+    id_detail_pesanan CHAR(5) PRIMARY KEY,
+    jumlah_menu INT,
+    total_harga DECIMAL(7,2),
+    catatan_khusus VARCHAR(100),
+    status_pesanan VARCHAR(100),
+    pesanan_dp_id_pesanan CHAR(5),
+    FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
+) ENGINE=INNODB;
+
 
 INSERT INTO Penjual (id_penjual, nama_penjual, email_penjual, password_penjual, status_penjual) 
 VALUES 
@@ -144,3 +170,34 @@ VALUES
 ('M0063', 'Kopi Hitam', '00:05:00', 20, 6000.00, 'Minuman', '70', 'regular', 0.00, 'drink/6-13', 'P0006');
 
 SELECT * FROM Menu;
+
+INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli, penjual_ps_id_penjual) 
+VALUES 
+('P0001', '2022-05-01 12:00:00', 1, 'P0001'),
+('P0002', '2022-05-02 12:00:00', 2, 'P0002'),
+('P0003', '2022-05-03 12:00:00', 3, 'P0003'),
+('P0004', '2022-05-04 12:00:00', 4, 'P0004');
+
+SELECT * FROM Pesanan;
+
+INSERT INTO Pesanan_Menu (pesanan_pm_id_pesanan, menu_id_menu)
+VALUES
+('P0001', 'M0001'),
+('P0001', 'M0002'),
+('P0001', 'M0003'),
+('P0002', 'M0004'),
+('P0002', 'M0005'),
+('P0002', 'M0006'),
+('P0003', 'M0007'),
+('P0004', 'M0008');
+
+SELECT * FROM Pesanan_Menu;
+
+INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
+VALUES
+('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'P0001'),
+('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'P0002'),
+('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'P0003'),
+('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'P0004');
+
+SELECT * FROM Detail_Pesanan;
