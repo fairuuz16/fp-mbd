@@ -1,10 +1,10 @@
--- Active: 1717655547271@@127.0.0.1@3306@fp_mbd
+-- Active: 1718165534569@@127.0.0.1@3306@mbd_web
 
 DROP DATABASE IF EXISTS fp_mbd;
 CREATE DATABASE fp_mbd
     DEFAULT CHARACTER SET = 'utf8mb4';
 
-USE fp_mbd;
+USE mbd_web;
 
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
@@ -15,11 +15,12 @@ CREATE TABLE Penjual (
 ) ENGINE=INNODB;
 
 CREATE TABLE Pembeli (
-    id_pembeli CHAR(5) PRIMARY KEY AUTO_INCREMENT,
+    id_pembeli INT AUTO_INCREMENT PRIMARY KEY,
     nama_pembeli VARCHAR(100),
     email_pembeli VARCHAR(100),
     password_pembeli VARCHAR(100)
 );
+
 
 CREATE TABLE Pegawai (
     nik CHAR(16) PRIMARY KEY,
@@ -57,13 +58,13 @@ VALUES
 SELECT * FROM Penjual;
 
 
-INSERT INTO Pembeli (id_pembeli, nama_pembeli, email_pembeli, password_pembeli)
+INSERT INTO Pembeli (nama_pembeli, email_pembeli, password_pembeli)
 VALUES 
-('C0001', 'Adi Cahyono', 'adi.cahyono@example.com', 'adicahyono123'),
-('C0002', 'Budi Santoso', 'budi.santoso@example.com', 'budisantoso456'),
-('C0003', 'Citra Wijaya', 'citra.wijaya@example.com', 'citrawijaya789'),
-('C0004', 'Dewi Lestari', 'dewi.lestari@example.com', 'dewilestari123'),
-('C0005', 'Eka Putri', 'eka.putri@example.com', 'ekaputri456');
+('Adi Cahyono', 'adi.cahyono@example.com', 'adicahyono123'),
+('Budi Santoso', 'budi.santoso@example.com', 'budisantoso456'),
+('Citra Wijaya', 'citra.wijaya@example.com', 'citrawijaya789'),
+('Dewi Lestari', 'dewi.lestari@example.com', 'dewilestari123'),
+('Eka Putri', 'eka.putri@example.com', 'ekaputri456');
 
 SELECT * FROM Pembeli;
 
