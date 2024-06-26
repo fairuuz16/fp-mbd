@@ -22,16 +22,6 @@ CREATE TABLE Pembeli (
     password_pembeli VARCHAR(30)
 ) ENGINE=INNODB;
 
--- -- credential not used
--- CREATE TABLE Pegawai (
---     nik CHAR(16) PRIMARY KEY,
---     nama_pegawai VARCHAR(100),
---     email_pegawai VARCHAR(100),
---     password_pegawai VARCHAR(100),
---     penjual_pg_id_penjual CHAR(5),
---     FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
--- ) ENGINE=INNODB;
-
 CREATE TABLE Menu (
     id_menu INT PRIMARY KEY AUTO_INCREMENT,
     nama_menu VARCHAR(50),
@@ -57,8 +47,6 @@ CREATE TABLE Cart (
   CONSTRAINT fk_cart_menu FOREIGN KEY (cart_id_menu) REFERENCES Menu(id_menu)
 ) ENGINE=INNODB;
 
-SELECT * FROM Cart;
-
 CREATE TABLE Pesanan (
     id_pesanan CHAR(5) PRIMARY KEY,
     waktu_pesanan TIMESTAMP,
@@ -80,16 +68,6 @@ CREATE TABLE Pesanan_Menu (
     FOREIGN KEY (penjual_pm_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
 
--- CREATE TABLE Detail_Pesanan (
---     id_detail_pesanan CHAR(5) PRIMARY KEY,
---     jumlah_menu INT,
---     total_harga DECIMAL(7,2),
---     catatan_khusus VARCHAR(100),
---     status_pesanan VARCHAR(100),
---     pesanan_dp_id_pesanan CHAR(5),
---     FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
--- ) ENGINE=INNODB;
-
 INSERT INTO Penjual (id_penjual, nama_penjual, email_penjual, password_penjual, status_penjual) 
 VALUES 
 ('P0001', 'Ombens', 'ombens@example.com', 'ombens123', 1),
@@ -110,15 +88,6 @@ VALUES
 ('Eka Putri', 'eka.putri@example.com', 'ekaputri456');
 
 SELECT * FROM Pembeli;
-
--- INSERT INTO Pegawai (nik, nama_pegawai, email_pegawai, password_pegawai, penjual_pg_id_penjual)
--- VALUES
--- ('7682154936278592', 'Rina Fitriana', 'rina.fitriana@example.com', 'pass123', 'P0001'),
--- ('9013746281937462', 'Budi Santoso', 'budi.santoso@example.com', 'budi456', 'P0002'),
--- ('5129374658123490', 'Siti Nurul', 'siti.nurul@example.com', 'siti789', 'P0003'),
--- ('6048912375648392', 'Ahmad Maulana', 'ahmad.maulana@example.com', 'ahmad1234', 'P0004');
-
--- SELECT * FROM Pegawai;
 
 INSERT INTO Menu (nama_menu, durasi_memasak, stok_menu, harga_menu, jenis_menu, vote_menu, star_menu, status_menu, diskon_menu, src_menu, penjual_me_id_penjual)
 VALUES
@@ -190,44 +159,50 @@ SELECT * FROM Menu;
 
 INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli) 
 VALUES 
-('PS001', '2022-05-01 12:00:00', 1),
-('PS002', '2022-05-02 12:00:00', 2),
-('PS003', '2022-05-03 12:00:00', 3),
-('PS004', '2022-05-04 12:00:00', 4);
+('1', '2022-05-01 12:00:00', 1),
+('2', '2022-05-02 12:00:00', 2),
+('3', '2022-05-03 12:00:00', 3),
+('4', '2022-05-04 12:00:00', 4);
 
 SELECT * FROM Pesanan;
 
 INSERT INTO Pesanan_Menu (pesanan_pm_id_pesanan, menu_id_menu)
 VALUES
-('PS001', '1'),
-('PS001', '2'),
-('PS001', '3'),
-('PS002', '4'),
-('PS002', '5'),
-('PS002', '6'),
-('PS003', '7'),
-('PS004', '8');
+('1', '1'),
+('1', '2'),
+('1', '3'),
+('2', '4'),
+('2', '5'),
+('2', '6'),
+('3', '7'),
+('4', '8');
 
 SELECT * FROM Pesanan_Menu;
 
--- INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
--- VALUES
--- ('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'PS001'),
--- ('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'PS002'),
--- ('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'PS003'),
--- ('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
 
--- SELECT * FROM Detail_Pesanan;
+-- FUNCTION
+DELIMITER //
+CREATE FUNCTION hitungTotalItem(cart_id_pembeli INT)
+RETURNS INT
+BEGIN
+    DECLARE total_item INT;
+    
+    SELECT SUM(item_qty)
+    INTO total_item
+    FROM Cart
+    WHERE cart_id_pembeli = cart_id_pembeli;
+    
+    RETURN total_item;
+END // 
+DELIMITER ;
 
 DELIMITER //
-
 CREATE FUNCTION SplitString(str VARCHAR(255), delim VARCHAR(12), pos INT) RETURNS VARCHAR(255)
 BEGIN
     RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
            LENGTH(SUBSTRING_INDEX(str, delim, pos - 1)) + 1),
            delim, '');
 END //
-
 DELIMITER ;
 
 CREATE FUNCTION CalculateTotalPrice(jumlah INT, harga DECIMAL(7,2)) RETURNS DECIMAL(7,2)
@@ -237,6 +212,8 @@ BEGIN
     RETURN total;
 END
 
+
+-- PROCEDURE
 CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
 BEGIN
     UPDATE Menu
@@ -267,28 +244,3 @@ BEGIN
 END
 
 CALL `UpdateStatusPesanan`(1);
-
-Select * FROM Pesanan
-
--- Buatlah database fp_mbd terlebih dahulu jika belum ada
-USE fp_mbd;
-
--- Definisikan fungsi untuk menghitung jumlah total item pesanan
-DELIMITER //
-
-CREATE FUNCTION hitungTotalItem(cart_id_pembeli INT)
-RETURNS INT
-BEGIN
-    DECLARE total_item INT;
-    
-    SELECT SUM(item_qty)
-    INTO total_item
-    FROM Cart
-    WHERE cart_id_pembeli = cart_id_pembeli;
-    
-    RETURN total_item;
-END
-
-SELECT hitungTotalItem(1); 
-
-DELIMITER ;

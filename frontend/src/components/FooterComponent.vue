@@ -19,7 +19,7 @@
             <div class="box">
                 <h3>extra links</h3>
                 <div v-if="user">
-                    <router-link @click="scrollToTop()" to="/cart"> <i class="fas fa-arrow-right"></i> my order
+                    <router-link @click="scrollToTop()" to="/cart"> <i class="fas fa-arrow-right"></i> my cart
                     </router-link>
                     <router-link @click="scrollToTop()" to="/myorder"> <i class="fas fa-arrow-right"></i> my orders
                     </router-link>
