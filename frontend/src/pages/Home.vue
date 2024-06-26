@@ -65,9 +65,10 @@
             <div class="content">
                 <span>why choose us?</span>
                 <h3 class="title">what's make our food delicious!</h3>
-                <p>Food to customers is always guaranteed of the best quality. Our dishes are made by chef Quang (a 5
-                    Michelin stars chef), promising to bring explosive, delicate, impressive flavors. Our delivery
-                    service is very professional, customers can enjoy the same quality at the restaurant</p>
+                <p>Food to customers is always guaranteed of the best quality.
+                    Our dishes are the best quality from talented Indonesian chefs, promising explosive, delicate, and impressive flavors. 
+                    Enjoy a delightful and memorable dining experience at our food court. 
+                    </p>
                 <router-link @click="scrollToTop()" to="/about" class="btn">read more</router-link>
 
                 <div class="icons-container">
