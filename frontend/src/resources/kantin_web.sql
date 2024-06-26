@@ -65,18 +65,21 @@ CREATE TABLE Pesanan (
     catatan_khusus VARCHAR(100),
     status_pesanan VARCHAR(100),
     pembeli_ps_id_pembeli INT,
-    penjual_ps_id_penjual CHAR(5),
-    FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli),
-    FOREIGN KEY (penjual_ps_id_penjual) REFERENCES Penjual(id_penjual)
+    FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli)
 ) ENGINE=INNODB;
 
 CREATE TABLE Pesanan_Menu (
     pesanan_pm_id_pesanan CHAR(5),
     menu_id_menu INT,
     item_qty INT,
+    penjual_pm_id_penjual CHAR(5),
     FOREIGN KEY (pesanan_pm_id_pesanan) REFERENCES Pesanan(id_pesanan),
-    FOREIGN KEY (menu_id_menu) REFERENCES Menu(id_menu)
+    FOREIGN KEY (menu_id_menu) REFERENCES Menu(id_menu),
+    FOREIGN KEY (penjual_pm_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
+
+
+
 
 -- CREATE TABLE Detail_Pesanan (
 --     id_detail_pesanan CHAR(5) PRIMARY KEY,
