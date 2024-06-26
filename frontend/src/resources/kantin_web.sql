@@ -256,3 +256,39 @@ BEGIN
         WHERE id_pesanan = p_id_pesanan;
     END IF;
 END
+
+CREATE PROCEDURE UpdateStatusPesanan(
+    IN p_id_pesanan INT
+)
+BEGIN
+    UPDATE Pesanan
+    SET status_pesanan = status_pesanan + 1
+    WHERE id_pesanan = p_id_pesanan;
+END
+
+CALL `UpdateStatusPesanan`(1);
+
+Select * FROM Pesanan
+
+-- Buatlah database fp_mbd terlebih dahulu jika belum ada
+USE fp_mbd;
+
+-- Definisikan fungsi untuk menghitung jumlah total item pesanan
+DELIMITER //
+
+CREATE FUNCTION hitungTotalItem(cart_id_pembeli INT)
+RETURNS INT
+BEGIN
+    DECLARE total_item INT;
+    
+    SELECT SUM(item_qty)
+    INTO total_item
+    FROM Cart
+    WHERE cart_id_pembeli = cart_id_pembeli;
+    
+    RETURN total_item;
+END
+
+SELECT hitungTotalItem(1); 
+
+DELIMITER ;

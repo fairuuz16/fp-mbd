@@ -97,7 +97,7 @@ export const getAll = (result) => {
 // };
 
 export const updateStatus = (id,result) => {
-    db.query("UPDATE Pesanan SET status_pesanan = status_pesanan + 1  WHERE id_pesanan = ?",id, (err,results)=> {
+    db.query("CALL `UpdateStatusPesanan`(?)",id, (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);
