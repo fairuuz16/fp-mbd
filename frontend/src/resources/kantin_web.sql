@@ -66,7 +66,7 @@ CREATE TABLE Pesanan (
     total_harga DECIMAL(7,2),
     catatan_khusus VARCHAR(100),
     status_pesanan INT,
-    pembeli_ps_id_pembeli INT
+    pembeli_ps_id_pembeli INT,
     penjual_ps_id_penjual INT,
     FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli),
     FOREIGN KEY (penjual_ps_id_penjual) REFERENCES Penjual(id_penjual)
