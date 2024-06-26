@@ -6,46 +6,47 @@ CREATE DATABASE fp_mbd
 
 USE fp_mbd;
 
+-- not used
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
-    nama_penjual VARCHAR(100),
-    email_penjual VARCHAR(100),
-    password_penjual VARCHAR(100),
+    nama_penjual VARCHAR(20),
+    email_penjual VARCHAR(20),
+    password_penjual VARCHAR(10),
     status_penjual INT
 ) ENGINE=INNODB;
 
 CREATE TABLE Pembeli (
     id_pembeli INT AUTO_INCREMENT PRIMARY KEY,
-    nama_pembeli VARCHAR(100),
-    email_pembeli VARCHAR(100),
-    password_pembeli VARCHAR(100)
+    nama_pembeli VARCHAR(20),
+    email_pembeli VARCHAR(20),
+    password_pembeli VARCHAR(10)
 ) ENGINE=INNODB;
 
-CREATE TABLE Pegawai (
-    nik CHAR(16) PRIMARY KEY,
-    nama_pegawai VARCHAR(100),
-    email_pegawai VARCHAR(100),
-    password_pegawai VARCHAR(100),
-    penjual_pg_id_penjual CHAR(5),
-    FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
-) ENGINE=INNODB;
+-- -- credential not used
+-- CREATE TABLE Pegawai (
+--     nik CHAR(16) PRIMARY KEY,
+--     nama_pegawai VARCHAR(100),
+--     email_pegawai VARCHAR(100),
+--     password_pegawai VARCHAR(100),
+--     penjual_pg_id_penjual CHAR(5),
+--     FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
+-- ) ENGINE=INNODB;
 
 CREATE TABLE Menu (
     id_menu INT PRIMARY KEY AUTO_INCREMENT,
-    nama_menu VARCHAR(100),
+    nama_menu VARCHAR(20),
     durasi_memasak VARCHAR(8),
     stok_menu INT,
     harga_menu DECIMAL(7,2),
-    jenis_menu VARCHAR(50),
-    vote_menu VARCHAR(100),
-    star_menu VARCHAR(10), -- seasonal/best seller
-    status_menu VARCHAR(100), -- di menu 
-    diskon_menu VARCHAR(100), -- promo di page home + promotion ?
-    src_menu VARCHAR(100), -- link gambar
+    jenis_menu VARCHAR(10),
+    vote_menu VARCHAR(20),
+    star_menu VARCHAR(10), 
+    status_menu VARCHAR(20),  
+    diskon_menu VARCHAR(10), 
+    src_menu VARCHAR(100), 
     penjual_me_id_penjual CHAR(5),
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
-
 
 CREATE TABLE Cart (
   cart_id_pembeli INT,
@@ -63,7 +64,7 @@ CREATE TABLE Pesanan (
     jumlah_menu INT,
     total_harga DECIMAL(7,2),
     catatan_khusus VARCHAR(100),
-    status_pesanan VARCHAR(100),
+    status_pesanan VARCHAR(20),
     pembeli_ps_id_pembeli INT,
     FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli)
 ) ENGINE=INNODB;
@@ -78,9 +79,6 @@ CREATE TABLE Pesanan_Menu (
     FOREIGN KEY (penjual_pm_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
 
-
-
-
 -- CREATE TABLE Detail_Pesanan (
 --     id_detail_pesanan CHAR(5) PRIMARY KEY,
 --     jumlah_menu INT,
@@ -90,7 +88,6 @@ CREATE TABLE Pesanan_Menu (
 --     pesanan_dp_id_pesanan CHAR(5),
 --     FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
 -- ) ENGINE=INNODB;
-
 
 INSERT INTO Penjual (id_penjual, nama_penjual, email_penjual, password_penjual, status_penjual) 
 VALUES 
@@ -102,7 +99,6 @@ VALUES
 ('P0006', 'Resto Padang', 'padang@mail.com', 'password123', 1);
 
 SELECT * FROM Penjual;
-
 
 INSERT INTO Pembeli (nama_pembeli, email_pembeli, password_pembeli)
 VALUES 

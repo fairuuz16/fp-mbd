@@ -6,6 +6,7 @@ CREATE DATABASE fp_mbd
 
 USE fp_mbd;
 
+-- not used
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
     nama_penjual VARCHAR(100),
@@ -21,14 +22,15 @@ CREATE TABLE Pembeli (
     password_pembeli VARCHAR(100)
 );
 
-CREATE TABLE Pegawai (
-    nik CHAR(16) PRIMARY KEY,
-    nama_pegawai VARCHAR(100),
-    email_pegawai VARCHAR(100),
-    password_pegawai VARCHAR(100),
-    penjual_pg_id_penjual CHAR(5),
-    FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
-);
+-- -- credential not used
+-- CREATE TABLE Pegawai (
+--     nik CHAR(16) PRIMARY KEY,
+--     nama_pegawai VARCHAR(100),
+--     email_pegawai VARCHAR(100),
+--     password_pegawai VARCHAR(100),
+--     penjual_pg_id_penjual CHAR(5),
+--     FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
+-- );
 
 CREATE TABLE Menu (
     id_menu CHAR(5) PRIMARY KEY,
@@ -37,10 +39,10 @@ CREATE TABLE Menu (
     stok_menu INT,
     harga_menu DECIMAL(7,2),
     jenis_menu VARCHAR(50),
-    vote_menu VARCHAR(100), -- best seller
-    status_menu VARCHAR(100), -- di menu 
-    diskon_menu VARCHAR(100), -- promo di page home + promotion
-    src_menu VARCHAR(100), -- link gambar
+    vote_menu VARCHAR(100), 
+    status_menu VARCHAR(100), 
+    diskon_menu VARCHAR(100), 
+    src_menu VARCHAR(100), 
     penjual_me_id_penjual CHAR(5),
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
 );
