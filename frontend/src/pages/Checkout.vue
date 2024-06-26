@@ -111,8 +111,6 @@ export default {
             this.resetCheckErr();
         },
 
-        let billId = (await axios.get("/billstatus/new")).data
-
         async sendBillDetails(billId, foodId, qty) {
             let data = {
                 pesanan_pm_id_pesanan: parseInt(billId),
