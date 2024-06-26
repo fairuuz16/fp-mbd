@@ -65,20 +65,19 @@ export const getAllBills=(req,res)=>{
 };
 
 
-// update Status
+//update Status
+// export const updateBillStatus=(req,res)=>{
+//     updateStatus(req.params.id,(err,results)=> {
+//         if (err) {
+//             res.send(err);
+//         }else {
+//             res.json(results);
+//         }
+//     });
+// };
+
 export const updateBillStatus=(req,res)=>{
     updateStatus(req.params.id,(err,results)=> {
-        if (err) {
-            res.send(err);
-        }else {
-            res.json(results);
-        }
-    });
-};
-
-// update Paid
-export const updateBillPaid=(req,res)=>{
-    updatePaid(req.params.id,(err,results)=> {
         if (err) {
             res.send(err);
         }else {

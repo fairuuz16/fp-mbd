@@ -13,37 +13,30 @@
                         <th>Bill Id</th>
                         <th>User Id</th>
                         <th>When</th>
-                        <th>Paid</th>
                         <th>Total</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(b) in filterBills.slice().reverse()" :key="b.bill_id">
-                        <td>{{ b.bill_id }}</td>
-                        <td>{{ b.user_id }}</td>
-                        <td>{{ b.bill_when }}</td>
-                        <td>{{ b.bill_paid }}</td>
-                        <td>${{ b.bill_total }}</td>
-                        <td>{{ avaiableStatus[b.bill_status] }}</td>
+                    <tr v-for="(b) in filterBills.slice().reverse()" :key="b.id_pesanan">
+                        <td>{{ b.id_pesanan }}</td>
+                        <td>{{ b.pembeli_ps_id_pembeli }}</td>
+                        <td>{{ b.waktu_pesanan }}</td>
+                        <td>Rp.{{ b.total_harga }}</td>
+                        <td>{{ avaiableStatus[b.status_pesanan] }}</td>
                         <td>
-                            <button v-if="b.bill_status < 5" class="action-btn" @click="nextStatusBtn(b.bill_id)">
-                                {{ avaiableStatus[b.bill_status + 1] }}
+                            <button v-if="b.status_pesanan < 4" class="action-btn" @click="nextStatusBtn(b.id_pesanan)">
+                                {{ avaiableStatus[b.status_pesanan + 1] }}
                             </button>
 
-                            <button v-if="b.bill_status == 1" class="cancel-btn" @click="cancelBtn(b.bill_id)">
+                            <button v-if="b.status_pesanan == 1" class="cancel-btn" @click="cancelBtn(b.bill_id)">
                                 Cancel
                             </button>
 
-                            <button v-else-if="b.bill_status == 5 && b.bill_paid == 'false'" class="paid-btn"
-                                @click="paidBtn(b.bill_id)">
-                                Paid
-                            </button>
-
-                            <button v-else-if="b.bill_status == 5 && b.bill_paid == 'true'" class="action-btn"
-                                @click="nextStatusBtn(b.bill_id)">
-                                {{ avaiableStatus[b.bill_status + 1] }}
+                            <button v-else-if="b.status_pesanan == 4" class="action-btn"
+                                @click="nextStatusBtn(b.id_pesanan)">
+                                {{ avaiableStatus[b.status_pesanan + 1] }}
                             </button>
                         </td>
                     </tr>
@@ -62,7 +55,7 @@ export default {
 
     data() {
         return {
-            avaiableStatus: ["cancel", "confirmed", "preparing", "checking", "delivering", "delivered", "completed"],
+            avaiableStatus: ["cancel", "confirmed", "preparing", "checking", "ready", "done"],
             allBills: [],
             showOrderDetails: false,
             sendId: undefined,
@@ -89,7 +82,7 @@ export default {
         ...mapState(["allFoods", "admin"]),
 
         filterBills: function () {
-            return this.allBills.filter((b) => b.bill_status < 6 && b.bill_status > 0);
+            return this.allBills.filter((b) => b.status_pesanan < 5 && b.status_pesanan > 0);
         },
     },
 
@@ -114,14 +107,25 @@ export default {
         },
 
         async nextStatusBtn(id) {
+        // const url = `/billstatus/:${id}`;
+        console.log('Updating status for bill ID:', id);
+        // await axios.put(url);
             await axios.put('/billstatus/' + id);
             this.getAllBills();
         },
 
-        async paidBtn(id) {
-            await axios.put('/billstatus/paid/' + id);
-            this.getAllBills();
-        },
+//         async nextStatusBtn(id) {
+//             console.log('Calling nextStatusBtn with ID:', id);
+//     const url = `/billstatus/${id}`;
+//     console.log('Updating status for bill ID:', id, 'URL:', url);
+//     try {
+//         await axios.put(url);
+//         console.log('Status updated for bill ID:', id);
+//         this.getAllBills();
+//     } catch (error) {
+//         console.error('Error updating status:', error);
+//     }
+// },
 
         async cancelBtn(id) {
             await axios.put('/billstatus/cancel/' + id);

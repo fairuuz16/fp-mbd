@@ -112,10 +112,14 @@ export default {
         },
 
         async sendBillDetails(billId, foodId, qty) {
+
+            let menuDetails = await axios.get("/foods/" + foodId);
+
             let data = {
                 pesanan_pm_id_pesanan: parseInt(billId),
                 menu_id_menu: parseInt(foodId),
-                item_qty: parseInt(qty)
+                item_qty: parseInt(qty),
+                penjual_pm_id_penjual: menuDetails.data.penjual_me_id_penjual,
             }
 
             console.log("DATA DETAIL: ",data);
@@ -151,8 +155,8 @@ export default {
                 let data = {
                     id_pesanan: parseInt(billId),
                     waktu_pesanan: currentTime,
-                    jumlah_menu: this.allFoods.filter.length.toString(),
-                    total_harga: parseInt(this.calculateSummaryPrice()[3]),
+                    jumlah_menu: this.allFoods.filter.length,
+                    total_harga: parseInt(this.calculateSummaryPrice()[2]),
                     catatan_khusus: this.checkoutObj.notes,
                     status_pesanan: 1,
                     pembeli_ps_id_pembeli: parseInt(this.user.id_pembeli)
