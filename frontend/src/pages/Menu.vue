@@ -103,7 +103,35 @@
                     <hr />
                 </div>
 
+                <div class="row filter-heading">
+                    <h1>Duration</h1>
+                </div>
+    
+                <div class="row filter-section"> 
+                    <ul class="filter-option">
+                        <li>
+                            <input type="button" name="rDuration" id="shortDuration" value="short" hidden
+                                @click="filterDurationBtn($event)" />
+                            <label for="shortDuration" class="d-flex justify-content-between">Short <button
+                                    class="unselect-btn" @click="unselectDurationBtn($event)">X</button></label>
+                        </li>
+                        <li>
+                            <input type="button" name="rDuration" id="mediumDuration" value="medium" hidden
+                                @click="filterDurationBtn($event)" />
+                            <label for="mediumDuration" class="d-flex justify-content-between">Medium <button
+                                    class="unselect-btn" @click="unselectDurationBtn($event)">X</button></label>
+                        </li>
+                        <li>
+                            <input type="button" name="rDuration" id="longDuration" value="long" hidden
+                                @click="filterDurationBtn($event)" />
+                            <label for="longDuration" class="d-flex justify-content-between">Long <button
+                                    class="unselect-btn" @click="unselectDurationBtn($event)">X</button></label>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
+
 
             <div class="col-sm-8">
                 <div class="row">

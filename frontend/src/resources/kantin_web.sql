@@ -6,46 +6,47 @@ CREATE DATABASE fp_mbd
 
 USE fp_mbd;
 
+-- not used
 CREATE TABLE Penjual (
     id_penjual CHAR(5) PRIMARY KEY,
-    nama_penjual VARCHAR(100),
-    email_penjual VARCHAR(100),
-    password_penjual VARCHAR(100),
+    nama_penjual VARCHAR(20),
+    email_penjual VARCHAR(20),
+    password_penjual VARCHAR(10),
     status_penjual INT
 ) ENGINE=INNODB;
 
 CREATE TABLE Pembeli (
     id_pembeli INT AUTO_INCREMENT PRIMARY KEY,
-    nama_pembeli VARCHAR(100),
-    email_pembeli VARCHAR(100),
-    password_pembeli VARCHAR(100)
+    nama_pembeli VARCHAR(20),
+    email_pembeli VARCHAR(20),
+    password_pembeli VARCHAR(10)
 ) ENGINE=INNODB;
 
-CREATE TABLE Pegawai (
-    nik CHAR(16) PRIMARY KEY,
-    nama_pegawai VARCHAR(100),
-    email_pegawai VARCHAR(100),
-    password_pegawai VARCHAR(100),
-    penjual_pg_id_penjual CHAR(5),
-    FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
-) ENGINE=INNODB;
+-- -- credential not used
+-- CREATE TABLE Pegawai (
+--     nik CHAR(16) PRIMARY KEY,
+--     nama_pegawai VARCHAR(100),
+--     email_pegawai VARCHAR(100),
+--     password_pegawai VARCHAR(100),
+--     penjual_pg_id_penjual CHAR(5),
+--     FOREIGN KEY (penjual_pg_id_penjual) REFERENCES Penjual(id_penjual)
+-- ) ENGINE=INNODB;
 
 CREATE TABLE Menu (
     id_menu INT PRIMARY KEY AUTO_INCREMENT,
-    nama_menu VARCHAR(100),
-    durasi_memasak VARCHAR(8),
+    nama_menu VARCHAR(20),
     stok_menu INT,
+    jenis_menu VARCHAR(10),
+    durasi_memasak VARCHAR(8),
     harga_menu DECIMAL(7,2),
-    jenis_menu VARCHAR(50),
-    vote_menu VARCHAR(100),
-    star_menu VARCHAR(10), -- seasonal/best seller
-    status_menu VARCHAR(100), -- di menu 
-    diskon_menu VARCHAR(100), -- promo di page home + promotion ?
-    src_menu VARCHAR(100), -- link gambar
+    diskon_menu VARCHAR(10), 
+    vote_menu VARCHAR(20),
+    star_menu VARCHAR(10), 
+    status_menu VARCHAR(20),  
+    src_menu VARCHAR(100), 
     penjual_me_id_penjual CHAR(5),
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
-
 
 CREATE TABLE Cart (
   cart_id_pembeli INT,
@@ -56,14 +57,15 @@ CREATE TABLE Cart (
   CONSTRAINT fk_cart_menu FOREIGN KEY (cart_id_menu) REFERENCES Menu(id_menu)
 ) ENGINE=INNODB;
 
-SELECT * FROM cart;
+SELECT * FROM Cart;
+
 CREATE TABLE Pesanan (
     id_pesanan CHAR(5) PRIMARY KEY,
     waktu_pesanan TIMESTAMP,
     jumlah_menu INT,
     total_harga DECIMAL(7,2),
     catatan_khusus VARCHAR(100),
-    status_pesanan VARCHAR(100),
+    status_pesanan INT,
     pembeli_ps_id_pembeli INT,
     FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli)
 ) ENGINE=INNODB;
@@ -78,9 +80,6 @@ CREATE TABLE Pesanan_Menu (
     FOREIGN KEY (penjual_pm_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
 
-
-
-
 -- CREATE TABLE Detail_Pesanan (
 --     id_detail_pesanan CHAR(5) PRIMARY KEY,
 --     jumlah_menu INT,
@@ -90,7 +89,6 @@ CREATE TABLE Pesanan_Menu (
 --     pesanan_dp_id_pesanan CHAR(5),
 --     FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
 -- ) ENGINE=INNODB;
-
 
 INSERT INTO Penjual (id_penjual, nama_penjual, email_penjual, password_penjual, status_penjual) 
 VALUES 
@@ -103,7 +101,6 @@ VALUES
 
 SELECT * FROM Penjual;
 
-
 INSERT INTO Pembeli (nama_pembeli, email_pembeli, password_pembeli)
 VALUES 
 ('Adi Cahyono', 'adi.cahyono@example.com', 'adicahyono123'),
@@ -114,14 +111,14 @@ VALUES
 
 SELECT * FROM Pembeli;
 
-INSERT INTO Pegawai (nik, nama_pegawai, email_pegawai, password_pegawai, penjual_pg_id_penjual)
-VALUES
-('7682154936278592', 'Rina Fitriana', 'rina.fitriana@example.com', 'pass123', 'P0001'),
-('9013746281937462', 'Budi Santoso', 'budi.santoso@example.com', 'budi456', 'P0002'),
-('5129374658123490', 'Siti Nurul', 'siti.nurul@example.com', 'siti789', 'P0003'),
-('6048912375648392', 'Ahmad Maulana', 'ahmad.maulana@example.com', 'ahmad1234', 'P0004');
+-- INSERT INTO Pegawai (nik, nama_pegawai, email_pegawai, password_pegawai, penjual_pg_id_penjual)
+-- VALUES
+-- ('7682154936278592', 'Rina Fitriana', 'rina.fitriana@example.com', 'pass123', 'P0001'),
+-- ('9013746281937462', 'Budi Santoso', 'budi.santoso@example.com', 'budi456', 'P0002'),
+-- ('5129374658123490', 'Siti Nurul', 'siti.nurul@example.com', 'siti789', 'P0003'),
+-- ('6048912375648392', 'Ahmad Maulana', 'ahmad.maulana@example.com', 'ahmad1234', 'P0004');
 
-SELECT * FROM Pegawai;
+-- SELECT * FROM Pegawai;
 
 INSERT INTO Menu (nama_menu, durasi_memasak, stok_menu, harga_menu, jenis_menu, vote_menu, star_menu, status_menu, diskon_menu, src_menu, penjual_me_id_penjual)
 VALUES
@@ -191,12 +188,12 @@ VALUES
 
 SELECT * FROM Menu;
 
-INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli, penjual_ps_id_penjual) 
+INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli) 
 VALUES 
-('PS001', '2022-05-01 12:00:00', 1, 'P0001'),
-('PS002', '2022-05-02 12:00:00', 2, 'P0002'),
-('PS003', '2022-05-03 12:00:00', 3, 'P0003'),
-('PS004', '2022-05-04 12:00:00', 4, 'P0004');
+('PS001', '2022-05-01 12:00:00', 1),
+('PS002', '2022-05-02 12:00:00', 2),
+('PS003', '2022-05-03 12:00:00', 3),
+('PS004', '2022-05-04 12:00:00', 4);
 
 SELECT * FROM Pesanan;
 
@@ -213,11 +210,49 @@ VALUES
 
 SELECT * FROM Pesanan_Menu;
 
-INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
-VALUES
-('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'PS001'),
-('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'PS002'),
-('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'PS003'),
-('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
+-- INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
+-- VALUES
+-- ('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'PS001'),
+-- ('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'PS002'),
+-- ('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'PS003'),
+-- ('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
 
-SELECT * FROM Detail_Pesanan;
+-- SELECT * FROM Detail_Pesanan;
+
+DELIMITER //
+
+CREATE FUNCTION SplitString(str VARCHAR(255), delim VARCHAR(12), pos INT) RETURNS VARCHAR(255)
+BEGIN
+    RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
+           LENGTH(SUBSTRING_INDEX(str, delim, pos - 1)) + 1),
+           delim, '');
+END //
+
+DELIMITER ;
+
+CREATE FUNCTION CalculateTotalPrice(jumlah INT, harga DECIMAL(7,2)) RETURNS DECIMAL(7,2)
+BEGIN
+    DECLARE total DECIMAL(7,2);
+    SET total = jumlah * harga;
+    RETURN total;
+END
+
+CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
+BEGIN
+    UPDATE Menu
+    SET stok_menu = stok_menu - jumlah
+    WHERE id_menu = menu_id;
+END
+
+CREATE PROCEDURE UpdateOrderStatus(IN p_id_pesanan CHAR(5), IN p_status_baru INT)
+BEGIN
+    DECLARE p_status_lama INT;
+    SELECT status_pesanan INTO p_status_lama
+    FROM Pesanan
+    WHERE id_pesanan = p_id_pesanan;
+    IF p_status_lama IS NOT NULL AND p_status_lama <> p_status_baru THEN
+        UPDATE Pesanan
+        SET status_pesanan = p_status_baru
+        WHERE id_pesanan = p_id_pesanan;
+    END IF;
+END
