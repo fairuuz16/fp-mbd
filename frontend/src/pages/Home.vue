@@ -3,7 +3,7 @@
         <div class="home-main">
             <div class="content">
                 <span>Welcome foodies!</span>
-                <h3>Original taste from Indonesia 😋</h3>
+                <h3>Original taste from Indonesia</h3>
                 <p>We guarantee the use of fresh, high-quality ingredients. Enjoy the rich, diverse flavors of Indonesian cuisine at our food court, where every dish brings a taste of Indonesia to your table.</p>
                 <router-link @click="scrollToTop()" to="/menu" class="btn">order now</router-link>
             </div>

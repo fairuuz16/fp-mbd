@@ -35,15 +35,13 @@
                                 <div v-for="(f, index) in filterFoods" :key="index">
                                     <div class="box-content row">
                                         <div class="image-box col-sm-3" style="padding-left: 0;">
-                                            <img :src="require(`../assets/images/${f.food_src}`)" alt=""
+                                            <img :src="require(`../assets/images/${f.src_menu}`)" alt=""
                                                 class="cart-product-img" />
                                         </div>
 
                                         <div class="desc col-sm-4">
-                                            <h2 class="item-name">{{ f.food_name }}</h2>
+                                            <h2 class="item-name">{{ f.nama_menu }}</h2>
                                             <div class="item-desc">
-                                                <b>Description</b>
-                                                <p>{{ f.food_desc }}</p>
                                             </div>
                                             <button class="btn remove-btn" @click="removeBtn(index)"><i
                                                     class="fa fa-trash"></i>Remove
@@ -51,13 +49,13 @@
                                         </div>
 
                                         <div class="item-price col-sm-1">
-                                            <span class="sale-price">${{ parseFloat(f.food_price) -
-                                                    parseFloat(f.food_discount)
+                                            <span class="sale-price">${{ parseFloat(f.harga_menu) -
+                                                    parseFloat(f.diskon_menu)
                                             }}</span>
                                             <p class="text-muted first-price"
-                                                v-if="parseFloat(f.food_discount) != 0.00">
+                                                v-if="parseFloat(f.diskon_menu) != 0.00">
                                                 ${{
-                                                        parseFloat(f.food_price)
+                                                        parseFloat(f.harga_menu)
                                                 }}
 
                                             </p>
@@ -131,7 +129,7 @@
                                 <h3>Support</h3>
                             </div>
                             <div class="box-content text-center">
-                                <h3><i class="fa fa-phone"></i> +84 123 123 123</h3>
+                                <h3><i class="fa fa-phone"></i> +6281 123 123 123</h3>
                                 <span class="small">
                                     Please contact with us if you have any questions. We are avalible 24h.
                                 </span>
@@ -175,7 +173,7 @@ export default {
         matchID: function (food, cartArray) {
             let temp = "";
             cartArray.forEach(element => {
-                if (parseInt(food.food_id) == element) {
+                if (parseInt(food.id_menu) == element) {
                     temp = food
                 }
             });
