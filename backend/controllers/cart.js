@@ -47,6 +47,7 @@ export const addItems=(req,res)=>{
 // update Item
 export const updateItem=(req,res)=>{
     const data = req.body;
+    console.log("Data received in backend:", data);  // Log data untuk debugging
     updateCartItemQty(data,(err,results)=> {
         if (err) {
             res.send(err);

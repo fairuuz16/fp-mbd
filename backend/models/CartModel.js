@@ -39,15 +39,32 @@ export const insertToCart = (data,result) => {
 };
 
 // update qty of a cart item
-export const updateCartItemQty = (data,result) => {
-    db.query("UPDATE cart SET item_qty = ? WHERE cart_id_pembeli = ? AND cart_id_menu = ?",[data.item_qty, data.user_id, data.food_id], (err,results)=> {
-        if (err){
-            console.log(err);
-            result(err,null);
-        }else{
-            result(null,results);
+// export const updateCartItemQty = (data,result) => {
+//     db.query("UPDATE cart SET item_qty = ? WHERE cart_id_pembeli = ? AND cart_id_menu = ?",[data.item_qty, data.cart_id_pembeli, data.cart_id_menu], (err,results)=> {
+//         if (err){
+//             console.log(err);
+//             result(err,null);
+//         }else{
+//             result(null,results);
+//         }
+//     });
+// };
+
+export const updateCartItemQty = (data, result) => {
+    console.log("Data yang diterima untuk update:", data); // Tambahkan baris ini untuk logging
+    db.query(
+        "UPDATE cart SET item_qty = ? WHERE cart_id_pembeli = ? AND cart_id_menu = ?",
+        [data.item_qty, data.cart_id_pembeli, data.cart_id_menu],
+        (err, results) => {
+            if (err) {
+                console.log(err);
+                result(err, null);
+            } else {
+                console.log("Update berhasil:", results);
+                result(null, results);
+            }
         }
-    });
+    );
 };
 
 

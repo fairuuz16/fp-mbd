@@ -11,8 +11,8 @@
                     <img :src="require(`../assets/images/${f.src_menu}`)" alt="" />
                 </div>
                 <div class="content">
-                    <p class="money">${{ parseFloat(f.harga_menu) - parseFloat(f.diskon_menu) }}<span
-                            v-if="parseFloat(f.diskon_menu) > 0">${{
+                    <p class="money">Rp.{{ parseFloat(f.harga_menu) - parseFloat(f.diskon_menu) }}<span
+                            v-if="parseFloat(f.diskon_menu) > 0">Rp.{{
                                     parseFloat(f.harga_menu)
                             }}</span></p>
                     <div class="qty">

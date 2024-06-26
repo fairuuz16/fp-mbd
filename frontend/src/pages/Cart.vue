@@ -35,29 +35,25 @@
                                 <div v-for="(f, index) in filterFoods" :key="index">
                                     <div class="box-content row">
                                         <div class="image-box col-sm-3" style="padding-left: 0;">
-                                            <img :src="require(`../assets/images/${f.food_src}`)" alt=""
+                                            <img :src="require(`../assets/images/${f.src_menu}`)" alt=""
                                                 class="cart-product-img" />
                                         </div>
 
                                         <div class="desc col-sm-4">
-                                            <h2 class="item-name">{{ f.food_name }}</h2>
-                                            <div class="item-desc">
-                                                <b>Description</b>
-                                                <p>{{ f.food_desc }}</p>
-                                            </div>
+                                            <h2 class="item-name">{{ f.nama_menu }}</h2>
                                             <button class="btn remove-btn" @click="removeBtn(index)"><i
                                                     class="fa fa-trash"></i>Remove
                                                 item</button>
                                         </div>
 
                                         <div class="item-price col-sm-1">
-                                            <span class="sale-price">${{ parseFloat(f.food_price) -
-                                                    parseFloat(f.food_discount)
+                                            <span class="sale-price">Rp.{{ parseFloat(f.harga_menu) -
+                                                    parseFloat(f.diskon_menu)
                                             }}</span>
                                             <p class="text-muted first-price"
-                                                v-if="parseFloat(f.food_discount) != 0.00">
-                                                ${{
-                                                        parseFloat(f.food_price)
+                                                v-if="parseFloat(f.diskon_menu) != 0.00">
+                                                Rp.{{
+                                                        parseFloat(f.harga_menu)
                                                 }}
 
                                             </p>
@@ -72,7 +68,7 @@
                                         </div>
 
                                         <div class="cal-total col-sm-2">
-                                            <h4 class="item-total">${{
+                                            <h4 class="item-total">Rp.{{
                                                     calculateItemPrice(index)
                                             }}
                                             </h4>
@@ -102,18 +98,18 @@
 
                             <div class="box-content">
                                 <span>Summary</span>
-                                <h3 class="font-bold total-first-price">${{ calculateSummaryPrice()[0] }}</h3>
+                                <h3 class="font-bold total-first-price">Rp.{{ calculateSummaryPrice()[0] }}</h3>
 
                                 <span>Discount</span>
-                                <h3 class="font-bold total-discount">${{ calculateSummaryPrice()[1] }}</h3>
+                                <h3 class="font-bold total-discount">Rp.{{ calculateSummaryPrice()[1] }}</h3>
 
                                 <span>Delivery fee</span>
-                                <h3 class="font-bold total-delivery">${{ calculateSummaryPrice()[2] }}</h3>
+                                <h3 class="font-bold total-delivery">Rp.{{ calculateSummaryPrice()[2] }}</h3>
 
                                 <hr />
 
                                 <span>Total</span>
-                                <h2 class="font-bold total-sale">${{ calculateSummaryPrice()[3] }}</h2>
+                                <h2 class="font-bold total-sale">Rp.{{ calculateSummaryPrice()[3] }}</h2>
 
                                 <div class="btn-group">
                                     <button class="btn check-out-btn" :disabled="filterFoods.length ? false : true"
@@ -175,7 +171,7 @@ export default {
         matchID: function (food, cartArray) {
             let temp = "";
             cartArray.forEach(element => {
-                if (parseInt(food.food_id) == element) {
+                if (parseInt(food.id_menu) == element) {
                     temp = food
                 }
             });
@@ -183,7 +179,7 @@ export default {
         },
 
         calculateItemPrice: function (index) {
-            return ((parseInt(this.filterFoods[index].food_price) - parseInt(this.filterFoods[index].food_discount)) * this.itemQuantity[index]).toString()
+            return ((parseInt(this.filterFoods[index].harga_menu) - parseInt(this.filterFoods[index].diskon_menu)) * this.itemQuantity[index]).toString()
         },
 
         calculateSummaryPrice: function () {
@@ -192,8 +188,8 @@ export default {
             let delivery = 15;
             let i = 0;
             while (i < this.itemQuantity.length) {
-                subtotal = subtotal + parseInt(this.filterFoods[i].food_price) * this.itemQuantity[i]
-                discount = discount + parseInt(this.filterFoods[i].food_discount) * this.itemQuantity[i]
+                subtotal = subtotal + parseInt(this.filterFoods[i].harga_menu) * this.itemQuantity[i]
+                discount = discount + parseInt(this.filterFoods[i].diskon_menu) * this.itemQuantity[i]
                 i = i + 1
             }
             if (!this.filterFoods.length) {
@@ -203,24 +199,50 @@ export default {
             return [subtotal, discount, delivery, total];
         },
 
-        async onQtyChange(e, i) {
-            if (e.target.value < 1) {
-                e.target.value = 1
-                this.itemQuantity[i] = 1
-            } else {
-                this.itemQuantity[i] = e.target.value;
-            }
+        // async onQtyChange(e, i) {
+        //     if (e.target.value < 1) {
+        //         e.target.value = 1
+        //         this.itemQuantity[i] = 1
+        //     } else {
+        //         this.itemQuantity[i] = e.target.value;
+        //     }
 
-            let data = {
-                user_id: parseInt(this.user.user_id),
-                food_id: parseInt(this.cartItem[i]),
-                item_qty: this.itemQuantity[i]
-            };
-            await axios.put("/cartItem/", data)
-        },
+        //     let data = {
+        //         cart_id_pembeli: parseInt(this.user.id_pembeli),
+        //         cart_id_menu: parseInt(this.cartItem[i]),
+        //         item_qty: this.itemQuantity[i]
+        //     };
+            
+        //     await axios.put("/cartItem/", data)
+            
+        // },
+
+        async onQtyChange(e, i) {
+    if (e.target.value < 1) {
+        e.target.value = 1
+        this.itemQuantity[i] = 1
+    } else {
+        this.itemQuantity[i] = e.target.value;
+    }
+
+    let data = {
+        cart_id_menu: parseInt(this.cartItem[i]),
+        cart_id_pembeli: parseInt(this.user.id_pembeli),
+        item_qty: this.itemQuantity[i]
+    };
+
+    console.log("Data yang akan dikirim:", data); // Tambahkan console log di sini untuk memeriksa data
+
+    try {
+        let response = await axios.put("/cartItem/", data);
+        console.log("Response from server:", response.data);
+    } catch (error) {
+        console.error("Error updating quantity:", error);
+    }
+},
 
         async cancelBtn() {
-            await axios.delete("/cartItem/" + this.user.user_id);
+            await axios.delete("/cartItem/" + this.user.id_pembeli);
 
             this.cartItem = [];
             this.itemQuantity = [];
@@ -231,7 +253,7 @@ export default {
         },
 
         async removeBtn(index) {
-            await axios.delete("/cartItem/" + this.user.user_id + "/" + this.cartItem[index]);
+            await axios.delete("/cartItem/" + this.user.id_pembeli + "/" + this.cartItem[index]);
 
             this.cartItem.splice(index, 1);
             this.itemQuantity.splice(index, 1);
@@ -239,9 +261,9 @@ export default {
 
         async getAllCartItem() {
             if (this.user) {
-                let existItem = await axios.get('/cartItem/' + this.user.user_id);
+                let existItem = await axios.get('/cartItem/' + this.user.id_pembeli);
                 existItem.data.forEach(element => {
-                    this.cartItem.push(element.food_id);
+                    this.cartItem.push(element.cart_id_menu);
                     this.itemQuantity.push(element.item_qty);
                 });
             }
