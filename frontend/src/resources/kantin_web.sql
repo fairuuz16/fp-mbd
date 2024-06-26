@@ -67,7 +67,7 @@ CREATE TABLE Pesanan (
     catatan_khusus VARCHAR(100),
     status_pesanan INT,
     pembeli_ps_id_pembeli INT,
-    penjual_ps_id_penjual INT,
+    penjual_ps_id_penjual CHAR(5),
     FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli),
     FOREIGN KEY (penjual_ps_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
