@@ -118,6 +118,8 @@ export default {
                 item_qty: parseInt(qty)
             }
 
+            console.log("DATA DETAIL: ",data);
+
             await axios.post("/billdetails", data);
         },
 
@@ -135,12 +137,9 @@ export default {
                 if (billId == "") {
                     billId = 1
                 } else {
-                    billId = parseInt(billId.bill_id) + 1
+                    billId = parseInt(billId.id_pesanan) + 1
                 }
 
-                this.cartItem.forEach((foodId, index) => {
-                    this.sendBillDetails(billId, foodId, this.itemQuantity[index])
-                });
 
                 var now = new Date();
                 var day = ("0" + now.getDate()).slice(-2);
@@ -154,7 +153,7 @@ export default {
                     waktu_pesanan: currentTime,
                     jumlah_menu: this.allFoods.filter.length.toString(),
                     total_harga: parseInt(this.calculateSummaryPrice()[3]),
-                    catatan_khusus: this.checkoutObj.email,
+                    catatan_khusus: this.checkoutObj.notes,
                     status_pesanan: 1,
                     pembeli_ps_id_pembeli: parseInt(this.user.id_pembeli)
                 }
@@ -163,6 +162,10 @@ export default {
 
                 axios.post("/billstatus", data);
                 axios.delete("/cartItem/" + this.user.id_pembeli);
+
+                this.cartItem.forEach((foodId, index) => {
+                    this.sendBillDetails(billId, foodId, this.itemQuantity[index])
+                });
 
                 this.cartItem = [];
                 this.itemQuantity = [];

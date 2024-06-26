@@ -73,7 +73,7 @@ CREATE TABLE Pesanan (
 CREATE TABLE Pesanan_Menu (
     pesanan_pm_id_pesanan CHAR(5),
     menu_id_menu INT,
-      item_qty INT,
+    item_qty INT,
     FOREIGN KEY (pesanan_pm_id_pesanan) REFERENCES Pesanan(id_pesanan),
     FOREIGN KEY (menu_id_menu) REFERENCES Menu(id_menu)
 ) ENGINE=INNODB;
