@@ -35,14 +35,14 @@ CREATE TABLE Pembeli (
 CREATE TABLE Menu (
     id_menu INT PRIMARY KEY AUTO_INCREMENT,
     nama_menu VARCHAR(20),
-    durasi_memasak VARCHAR(8),
     stok_menu INT,
-    harga_menu DECIMAL(7,2),
     jenis_menu VARCHAR(10),
+    durasi_memasak VARCHAR(8),
+    harga_menu DECIMAL(7,2),
+    diskon_menu VARCHAR(10), 
     vote_menu VARCHAR(20),
     star_menu VARCHAR(10), 
     status_menu VARCHAR(20),  
-    diskon_menu VARCHAR(10), 
     src_menu VARCHAR(100), 
     penjual_me_id_penjual CHAR(5),
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
@@ -57,14 +57,15 @@ CREATE TABLE Cart (
   CONSTRAINT fk_cart_menu FOREIGN KEY (cart_id_menu) REFERENCES Menu(id_menu)
 ) ENGINE=INNODB;
 
-SELECT * FROM cart;
+SELECT * FROM Cart;
+
 CREATE TABLE Pesanan (
     id_pesanan CHAR(5) PRIMARY KEY,
     waktu_pesanan TIMESTAMP,
     jumlah_menu INT,
     total_harga DECIMAL(7,2),
     catatan_khusus VARCHAR(100),
-    status_pesanan VARCHAR(20),
+    status_pesanan INT,
     pembeli_ps_id_pembeli INT,
     FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli)
 ) ENGINE=INNODB;
