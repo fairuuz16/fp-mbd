@@ -1,6 +1,7 @@
 <template>
     <div class="header">
-        <router-link @click="scrollToTop()" to="/" class="logo"><img src="../assets/images/taco-logo.png" alt="" />SCourt
+        <router-link @click="scrollToTop()" to="/" class="logo">
+            <img src="../assets/images/taco-logo.png" alt="" />SCourt
         </router-link>
 
         <nav class="navbar">
@@ -11,6 +12,8 @@
         </nav>
 
         <div class="icons">
+            <span v-if="user" class="greeting">Hi, {{ user.nama_pembeli }}!</span>
+            
             <div id="menu-btn" class="fas fa-bars menu-btn" @click="showNav"></div>
             <router-link @click="scrollToTop()" to="cart">
                 <div class="fas fa-shopping-cart cart"></div>
@@ -25,7 +28,6 @@
                         <router-link @click="scrollToTop()" to="/register">register</router-link>
                     </li>
                 </ul>
-
             </div>
 
             <div v-else class="fas fa-user account" style="background: #f38609;color: white;" @click="showLog">
@@ -38,7 +40,6 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </div>
 </template>
@@ -133,6 +134,11 @@ export default {
     color: #f38609;
 }
 
+.header .icons {
+    display: flex;
+    align-items: center;
+}
+
 .header .icons div {
     height: 4.5rem;
     width: 4.5rem;
@@ -156,6 +162,12 @@ export default {
     color: white;
 }
 
+.header .greeting {
+    margin-left: 1rem;
+    font-size: 1.7rem;
+    color: #666;
+}
+
 #menu-btn {
     display: none;
 }
@@ -175,7 +187,6 @@ export default {
     float: left;
     width: 95px;
     border-radius: 5%;
-
 }
 
 .header .icons .account .drop-down-select.active {
@@ -191,13 +202,8 @@ export default {
     color: white;
 }
 
-/* .header .icons .account:hover .drop-down-select {
-    display: block;
-} */
-
 .header .icons .account:hover .drop-down-select a {
     background-color: #f7f7f7;
-
 }
 
 .header .icons .account:hover .drop-down-select a:hover {
@@ -236,7 +242,6 @@ export default {
     #menu-btn {
         display: inline-block;
     }
-
 }
 
 @media (max-width: 576px) {
