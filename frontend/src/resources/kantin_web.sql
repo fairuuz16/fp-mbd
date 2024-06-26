@@ -67,9 +67,7 @@ CREATE TABLE Pesanan (
     catatan_khusus VARCHAR(100),
     status_pesanan INT,
     pembeli_ps_id_pembeli INT,
-    penjual_ps_id_penjual CHAR(5),
-    FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli),
-    FOREIGN KEY (penjual_ps_id_penjual) REFERENCES Penjual(id_penjual)
+    FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli)
 ) ENGINE=INNODB;
 
 CREATE TABLE Pesanan_Menu (
@@ -190,12 +188,12 @@ VALUES
 
 SELECT * FROM Menu;
 
-INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli, penjual_ps_id_penjual) 
+INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli) 
 VALUES 
-('PS001', '2022-05-01 12:00:00', 1, 'P0001'),
-('PS002', '2022-05-02 12:00:00', 2, 'P0002'),
-('PS003', '2022-05-03 12:00:00', 3, 'P0003'),
-('PS004', '2022-05-04 12:00:00', 4, 'P0004');
+('PS001', '2022-05-01 12:00:00', 1),
+('PS002', '2022-05-02 12:00:00', 2),
+('PS003', '2022-05-03 12:00:00', 3),
+('PS004', '2022-05-04 12:00:00', 4);
 
 SELECT * FROM Pesanan;
 
@@ -220,3 +218,41 @@ SELECT * FROM Pesanan_Menu;
 -- ('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
 
 -- SELECT * FROM Detail_Pesanan;
+
+DELIMITER //
+
+CREATE FUNCTION SplitString(str VARCHAR(255), delim VARCHAR(12), pos INT) RETURNS VARCHAR(255)
+BEGIN
+    RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
+           LENGTH(SUBSTRING_INDEX(str, delim, pos - 1)) + 1),
+           delim, '');
+END //
+
+DELIMITER ;
+
+CREATE FUNCTION CalculateTotalPrice(jumlah INT, harga DECIMAL(7,2)) RETURNS DECIMAL(7,2)
+BEGIN
+    DECLARE total DECIMAL(7,2);
+    SET total = jumlah * harga;
+    RETURN total;
+END
+
+CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
+BEGIN
+    UPDATE Menu
+    SET stok_menu = stok_menu - jumlah
+    WHERE id_menu = menu_id;
+END
+
+CREATE PROCEDURE UpdateOrderStatus(IN p_id_pesanan CHAR(5), IN p_status_baru INT)
+BEGIN
+    DECLARE p_status_lama INT;
+    SELECT status_pesanan INTO p_status_lama
+    FROM Pesanan
+    WHERE id_pesanan = p_id_pesanan;
+    IF p_status_lama IS NOT NULL AND p_status_lama <> p_status_baru THEN
+        UPDATE Pesanan
+        SET status_pesanan = p_status_baru
+        WHERE id_pesanan = p_id_pesanan;
+    END IF;
+END
