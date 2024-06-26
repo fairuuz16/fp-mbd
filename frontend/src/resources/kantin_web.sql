@@ -210,11 +210,11 @@ VALUES
 
 SELECT * FROM Pesanan_Menu;
 
-INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
-VALUES
-('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'PS001'),
-('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'PS002'),
-('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'PS003'),
-('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
+-- INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
+-- VALUES
+-- ('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'PS001'),
+-- ('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'PS002'),
+-- ('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'PS003'),
+-- ('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
 
-SELECT * FROM Detail_Pesanan;
+-- SELECT * FROM Detail_Pesanan;
