@@ -3,18 +3,17 @@
 
     <div v-if="user" class="quick-view">
         <div class="quick-view-inner" v-for="f in selectedFood" :key="f">
-            <h2 class="d-flex justify-content-between">{{ f.food_name }}
+            <h2 class="d-flex justify-content-between">{{ f.nama_menu }}
                 <slot></slot>
             </h2>
             <div class="product-detail d-flex">
                 <div class="image">
-                    <img :src="require(`../assets/images/${f.food_src}`)" alt="" />
+                    <img :src="require(`../assets/images/${f.src_menu}`)" alt="" />
                 </div>
                 <div class="content">
-                    <p class="desc">{{ f.food_desc }}</p>
-                    <p class="money">${{ parseFloat(f.food_price) - parseFloat(f.food_discount) }}<span
-                            v-if="parseFloat(f.food_discount) > 0">${{
-                                    parseFloat(f.food_price)
+                    <p class="money">${{ parseFloat(f.harga_menu) - parseFloat(f.diskon_menu) }}<span
+                            v-if="parseFloat(f.diskon_menu) > 0">${{
+                                    parseFloat(f.harga_menu)
                             }}</span></p>
                     <div class="qty">
                         <label for="qty">Quantity:</label>
@@ -57,7 +56,7 @@ export default {
         ...mapState(["allFoods", "user"]),
 
         selectedFood: function () {
-            return this.allFoods.filter((f) => parseInt(f.food_id) == parseInt(this.food));
+            return this.allFoods.filter((f) => parseInt(f.id_menu) == parseInt(this.food));
         }
     },
 
@@ -72,27 +71,28 @@ export default {
         },
 
         async addToCart() {
-            let existItem = await axios.get('/cartItem/' + parseInt(this.user.user_id) + '/' + parseInt(this.food));
+            let existItem = await axios.get('/cartItem/' + parseInt(this.user.id_pembeli) + '/' + parseInt(this.food));
 
             if (existItem.data.length == 1) {
                 let data = {
-                    user_id: parseInt(this.user.user_id),
-                    food_id: parseInt(this.food),
+                    cart_id_pembeli: parseInt(this.user.id_pembeli),
+                    cart_id_menu: parseInt(this.food),
                     item_qty: parseInt(this.qty) + parseInt(existItem.data[0].item_qty)
                 };
-                await axios.put("/cartItem/", data)
-                this.$refs.alert.showAlert('success', 'Thank you!', 'Add To Cart Successfully !')
-
+                console.log("PUT data:", data); 
+                await axios.put("/cartItem/", data);
+                this.$refs.alert.showAlert('success', 'Thank you!', 'Add To Cart Successfully !');
             } else {
                 let data = {
-                    user_id: parseInt(this.user.user_id),
-                    food_id: parseInt(this.food),
+                    cart_id_pembeli: parseInt(this.user.id_pembeli),
+                    cart_id_menu: parseInt(this.food),
                     item_qty: parseInt(this.qty)
                 };
-
-                await axios.post("/cartItem/", data)
-                this.$refs.alert.showAlert('success', 'Thank you!', 'Add To Cart Successfully !')
+                console.log("POST data:", data); 
+                await axios.post("/cartItem/", data);
+                this.$refs.alert.showAlert('success', 'Thank you!', 'Add To Cart Successfully !');
             }
+
         }
     },
 
