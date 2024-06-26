@@ -180,9 +180,14 @@ VALUES
 SELECT * FROM Pesanan_Menu;
 
 
+
 -- FUNCTION
+DROP FUNCTION IF EXISTS CountTotalItem;
+DROP FUNCTION IF EXISTS SplitString;
+DROP FUNCTION IF EXISTS CalculateTotalPrice;
+
 DELIMITER //
-CREATE FUNCTION hitungTotalItem(cart_id_pembeli INT)
+CREATE FUNCTION CountTotalItem(cart_id_pembeli INT)
 RETURNS INT
 BEGIN
     DECLARE total_item INT;
@@ -213,13 +218,19 @@ BEGIN
 END
 
 
+
 -- PROCEDURE
+DROP PROCEDURE IF EXISTS UpdateStokMenu;
+DROP PROCEDURE IF EXISTS UpdateOrderStatus;
+DROP PROCEDURE IF EXISTS UpdateStatusPesanan;
+
 CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
 BEGIN
     UPDATE Menu
     SET stok_menu = stok_menu - jumlah
     WHERE id_menu = menu_id;
 END
+CALL `UpdateStokMenu`('1', 2);
 
 CREATE PROCEDURE UpdateOrderStatus(IN p_id_pesanan CHAR(5), IN p_status_baru INT)
 BEGIN
@@ -233,6 +244,7 @@ BEGIN
         WHERE id_pesanan = p_id_pesanan;
     END IF;
 END
+CALL `UpdateOrderStatus`('1', 2);
 
 CREATE PROCEDURE UpdateStatusPesanan(
     IN p_id_pesanan INT
@@ -242,5 +254,84 @@ BEGIN
     SET status_pesanan = status_pesanan + 1
     WHERE id_pesanan = p_id_pesanan;
 END
-
 CALL `UpdateStatusPesanan`(1);
+
+
+
+-- TRIGGER
+SHOW TRIGGERS FROM fp_mbd;
+DROP TRIGGER IF EXISTS ;
+
+
+DROP TRIGGER IF EXISTS after_insert_pesanan_menu;
+DELIMITER //
+CREATE TRIGGER after_insert_pesanan_menu
+AFTER INSERT ON Pesanan_Menu
+FOR EACH ROW
+BEGIN
+    CALL UpdateStokMenu(NEW.menu_id_menu, NEW.item_qty);
+END;
+//
+DELIMITER ;
+
+
+-- INDEX
+SHOW INDEXES FROM Penjual;
+SHOW INDEXES FROM Pembeli;
+SHOW INDEXES FROM Menu;
+SHOW INDEXES FROM Cart;
+SHOW INDEXES FROM Pesanan;
+SHOW INDEXES FROM Pesanan_Menu;
+
+CREATE INDEX idx_nama_penjual ON Penjual(nama_penjual);
+EXPLAIN SELECT * FROM Penjual WHERE nama_penjual = 'Ombens';
+
+CREATE INDEX idx_nama_pembeli ON Pembeli(nama_pembeli);
+EXPLAIN SELECT * FROM Pembeli WHERE nama_pembeli = 'Adi';
+
+CREATE INDEX idx_nama_menu ON Menu(nama_menu);
+EXPLAIN SELECT * FROM Menu WHERE nama_menu = 'Es';
+
+CREATE INDEX idx_harga_menu ON Menu(harga_menu);
+EXPLAIN SELECT * FROM Menu WHERE harga_menu = 15000.00;
+
+CREATE INDEX idx_status_menu ON Menu(status_menu);
+EXPLAIN SELECT * FROM Menu WHERE status_menu = 'best';
+
+CREATE INDEX idx_jenis_menu ON Menu(jenis_menu);
+EXPLAIN SELECT * FROM Menu WHERE jenis_menu = 'Minuman';
+
+-- VIEW
+CREATE VIEW PesananDetail AS
+SELECT 
+    p.id_pesanan AS ID_Pesanan,
+    pb.nama_pembeli AS Nama_Pembeli,
+    pm.nama_menu AS Nama_Menu,
+    psn.item_qty AS Jumlah_Item,
+    pj.nama_penjual AS Nama_Penjual,
+    p.waktu_pesanan AS Waktu_Pesanan,
+    p.total_harga AS Total_Harga,
+    p.status_pesanan AS Status_Pesanan
+FROM
+    Pesanan p
+    JOIN Pembeli pb ON p.pembeli_ps_id_pembeli = pb.id_pembeli
+    JOIN Pesanan_Menu psn ON p.id_pesanan = psn.pesanan_pm_id_pesanan
+    JOIN Menu pm ON psn.menu_id_menu = pm.id_menu
+    JOIN Penjual pj ON pm.penjual_me_id_penjual = pj.id_penjual;
+
+
+CREATE VIEW MenuDiskon AS
+SELECT 
+    m.id_menu AS ID_Menu,
+    m.nama_menu AS Nama_Menu,
+    m.harga_menu AS Harga_Menu,
+    m.diskon_menu AS Diskon_Menu,
+    pj.nama_penjual AS Nama_Penjual,
+    m.status_menu AS Status_Menu
+FROM
+    Menu m
+    JOIN Penjual pj ON m.penjual_me_id_penjual = pj.id_penjual
+WHERE
+    m.diskon_menu > 0;
+
+
