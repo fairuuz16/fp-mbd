@@ -39,7 +39,7 @@ Tujuan dari project ini adalah untuk meningkatkan efisiensi operasional food cou
 
 
 ## Conclusion
-
+SCourt, sebagai website pengelola food court dapat meningkatkan efisiensi operasional, meningkatkan kepuasan pelanggan, dan mendorong peningkatan penjualan bagi tenant. SCourt juga memungkinkan pengguna untuk melakukan pemesanan online, memudahkan pemilihan menu dan memberikan rekomendasi, serta mengelola transaksi pembayaran secara digital.
 
 ## Lecturer
 Shintami Chusnul Hidayati, S.Kom., M.Sc., Ph.D.
