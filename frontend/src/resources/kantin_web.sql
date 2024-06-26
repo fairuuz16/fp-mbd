@@ -68,7 +68,7 @@ CREATE TABLE Pesanan (
 
 CREATE TABLE Pesanan_Menu (
     pesanan_pm_id_pesanan CHAR(5),
-    menu_id_menu CHAR(5),
+    menu_id_menu INT,
     FOREIGN KEY (pesanan_pm_id_pesanan) REFERENCES Pesanan(id_pesanan),
     FOREIGN KEY (menu_id_menu) REFERENCES Menu(id_menu)
 ) ENGINE=INNODB;
@@ -194,14 +194,14 @@ SELECT * FROM Pesanan;
 
 INSERT INTO Pesanan_Menu (pesanan_pm_id_pesanan, menu_id_menu)
 VALUES
-('PS001', 'M0001'),
-('PS001', 'M0002'),
-('PS001', 'M0003'),
-('PS002', 'M0004'),
-('PS002', 'M0005'),
-('PS002', 'M0006'),
-('PS003', 'M0007'),
-('PS004', 'M0008');
+('PS001', '1'),
+('PS001', '2'),
+('PS001', '3'),
+('PS002', '4'),
+('PS002', '5'),
+('PS002', '6'),
+('PS003', '7'),
+('PS004', '8');
 
 SELECT * FROM Pesanan_Menu;
 
