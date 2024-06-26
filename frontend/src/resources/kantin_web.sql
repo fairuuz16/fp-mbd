@@ -1,4 +1,4 @@
--- Active: 1718165534569@@127.0.0.1@3306@fp_mbd
+-- Active: 1719335773094@@127.0.0.1@3306@fp_mbd
 
 DROP DATABASE IF EXISTS fp_mbd;
 CREATE DATABASE fp_mbd
@@ -46,6 +46,17 @@ CREATE TABLE Menu (
     FOREIGN KEY (penjual_me_id_penjual) REFERENCES Penjual(id_penjual)
 ) ENGINE=INNODB;
 
+
+CREATE TABLE Cart (
+  cart_id_pembeli INT,
+  cart_id_menu CHAR(5),
+  item_qty INT,
+  PRIMARY KEY (cart_id_pembeli, cart_id_menu),
+  CONSTRAINT fk_cart_pembeli FOREIGN KEY (cart_id_pembeli) REFERENCES Pembeli(id_pembeli),
+  CONSTRAINT fk_cart_menu FOREIGN KEY (cart_id_menu) REFERENCES Menu(id_menu)
+) ENGINE=INNODB;
+
+SELECT * FROM cart;
 CREATE TABLE Pesanan (
     id_pesanan CHAR(5) PRIMARY KEY,
     waktu_pesanan TIMESTAMP,
@@ -103,6 +114,9 @@ VALUES
 ('6048912375648392', 'Ahmad Maulana', 'ahmad.maulana@example.com', 'ahmad1234', 'P0004');
 
 SELECT * FROM Pegawai;
+
+SELECT * FROM Cart;
+
 
 INSERT INTO Menu (id_menu, nama_menu, durasi_memasak, stok_menu, harga_menu, jenis_menu, vote_menu, star_menu, status_menu, diskon_menu, src_menu, penjual_me_id_penjual)
 VALUES
@@ -174,31 +188,31 @@ SELECT * FROM Menu;
 
 INSERT INTO Pesanan (id_pesanan, waktu_pesanan, pembeli_ps_id_pembeli, penjual_ps_id_penjual) 
 VALUES 
-('P0001', '2022-05-01 12:00:00', 1, 'P0001'),
-('P0002', '2022-05-02 12:00:00', 2, 'P0002'),
-('P0003', '2022-05-03 12:00:00', 3, 'P0003'),
-('P0004', '2022-05-04 12:00:00', 4, 'P0004');
+('PS001', '2022-05-01 12:00:00', 1, 'P0001'),
+('PS002', '2022-05-02 12:00:00', 2, 'P0002'),
+('PS003', '2022-05-03 12:00:00', 3, 'P0003'),
+('PS004', '2022-05-04 12:00:00', 4, 'P0004');
 
 SELECT * FROM Pesanan;
 
 INSERT INTO Pesanan_Menu (pesanan_pm_id_pesanan, menu_id_menu)
 VALUES
-('P0001', 'M0001'),
-('P0001', 'M0002'),
-('P0001', 'M0003'),
-('P0002', 'M0004'),
-('P0002', 'M0005'),
-('P0002', 'M0006'),
-('P0003', 'M0007'),
-('P0004', 'M0008');
+('PS001', 'M0001'),
+('PS001', 'M0002'),
+('PS001', 'M0003'),
+('PS002', 'M0004'),
+('PS002', 'M0005'),
+('PS002', 'M0006'),
+('PS003', 'M0007'),
+('PS004', 'M0008');
 
 SELECT * FROM Pesanan_Menu;
 
 INSERT INTO Detail_Pesanan (id_detail_pesanan, jumlah_menu, total_harga, catatan_khusus, status_pesanan, pesanan_dp_id_pesanan)
 VALUES
-('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'P0001'),
-('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'P0002'),
-('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'P0003'),
-('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'P0004');
+('D0001', 2, 30000.00, 'Tidak pakai gula', 'dibayar', 'PS001'),
+('D0002', 3, 21000.00, 'Tidak pakai es', 'dibayar', 'PS002'),
+('D0003', 1, 7000.00, 'Tidak pakai gula', 'dibayar', 'PS003'),
+('D0004', 2, 14000.00, 'Tidak pakai es', 'dibayar', 'PS004');
 
 SELECT * FROM Detail_Pesanan;
