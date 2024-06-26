@@ -2,8 +2,8 @@
     <div class="shopping-cart-section">
 
         <div class="heading">
-            <span>Shopping cart</span>
-            <h3>Good products, fast delivery</h3>
+            <span>Food cart</span>
+            <h3>Buy everything</h3>
         </div>
 
         <div class="container">
@@ -103,13 +103,10 @@
                                 <span>Discount</span>
                                 <h3 class="font-bold total-discount">Rp.{{ calculateSummaryPrice()[1] }}</h3>
 
-                                <span>Delivery fee</span>
-                                <h3 class="font-bold total-delivery">Rp.{{ calculateSummaryPrice()[2] }}</h3>
-
                                 <hr />
 
                                 <span>Total</span>
-                                <h2 class="font-bold total-sale">Rp.{{ calculateSummaryPrice()[3] }}</h2>
+                                <h2 class="font-bold total-sale">Rp.{{ calculateSummaryPrice()[2] }}</h2>
 
                                 <div class="btn-group">
                                     <button class="btn check-out-btn" :disabled="filterFoods.length ? false : true"
@@ -185,61 +182,40 @@ export default {
         calculateSummaryPrice: function () {
             let subtotal = 0;
             let discount = 0;
-            let delivery = 15;
             let i = 0;
             while (i < this.itemQuantity.length) {
                 subtotal = subtotal + parseInt(this.filterFoods[i].harga_menu) * this.itemQuantity[i]
                 discount = discount + parseInt(this.filterFoods[i].diskon_menu) * this.itemQuantity[i]
                 i = i + 1
             }
-            if (!this.filterFoods.length) {
-                delivery = 0
-            }
-            let total = subtotal - discount + delivery;
-            return [subtotal, discount, delivery, total];
+            let total = subtotal - discount;
+            return [subtotal, discount, total];
         },
 
-        // async onQtyChange(e, i) {
-        //     if (e.target.value < 1) {
-        //         e.target.value = 1
-        //         this.itemQuantity[i] = 1
-        //     } else {
-        //         this.itemQuantity[i] = e.target.value;
-        //     }
-
-        //     let data = {
-        //         cart_id_pembeli: parseInt(this.user.id_pembeli),
-        //         cart_id_menu: parseInt(this.cartItem[i]),
-        //         item_qty: this.itemQuantity[i]
-        //     };
-            
-        //     await axios.put("/cartItem/", data)
-            
-        // },
 
         async onQtyChange(e, i) {
-    if (e.target.value < 1) {
-        e.target.value = 1
-        this.itemQuantity[i] = 1
-    } else {
-        this.itemQuantity[i] = e.target.value;
-    }
+            if (e.target.value < 1) {
+                e.target.value = 1
+                this.itemQuantity[i] = 1
+            } else {
+                this.itemQuantity[i] = e.target.value;
+            }
 
-    let data = {
-        cart_id_menu: parseInt(this.cartItem[i]),
-        cart_id_pembeli: parseInt(this.user.id_pembeli),
-        item_qty: this.itemQuantity[i]
-    };
+            let data = {
+                cart_id_menu: parseInt(this.cartItem[i]),
+                cart_id_pembeli: parseInt(this.user.id_pembeli),
+                item_qty: this.itemQuantity[i]
+            };
 
-    console.log("Data yang akan dikirim:", data); // Tambahkan console log di sini untuk memeriksa data
+            console.log("Data yang akan dikirim:", data); // Tambahkan console log di sini untuk memeriksa data
 
-    try {
-        let response = await axios.put("/cartItem/", data);
-        console.log("Response from server:", response.data);
-    } catch (error) {
-        console.error("Error updating quantity:", error);
-    }
-},
+            try {
+                let response = await axios.put("/cartItem/", data);
+                console.log("Response from server:", response.data);
+            } catch (error) {
+                console.error("Error updating quantity:", error);
+            }
+        },
 
         async cancelBtn() {
             await axios.delete("/cartItem/" + this.user.id_pembeli);

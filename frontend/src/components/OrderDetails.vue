@@ -20,7 +20,6 @@
 
             <div class="price">
                 <p>Discount: ${{ billMatch.bill_discount }}</p>
-                <p>Delivery Fee: ${{ billMatch.bill_delivery }}</p>
                 <p>Total: ${{ billMatch.bill_total }}</p>
             </div>
         </div>

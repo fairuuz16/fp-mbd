@@ -5,7 +5,6 @@ import {
     getBillsByBill,
     getAll,
     updateStatus,
-    updatePaid,
     cancelStatus
 } from "../models/BillStatusModel.js";
 
@@ -21,7 +20,7 @@ export const showNewestStatusId=(req,res)=>{
 };
 
 // create BillStatus
-export const createBillStatus=(req,res)=>{
+export const createPesanan=(req,res)=>{
     const data = req.body;
     insertBillStatus(data,(err,results)=> {
         if (err) {

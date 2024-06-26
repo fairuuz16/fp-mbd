@@ -60,6 +60,10 @@ SELECT * FROM cart;
 CREATE TABLE Pesanan (
     id_pesanan CHAR(5) PRIMARY KEY,
     waktu_pesanan TIMESTAMP,
+    jumlah_menu INT,
+    total_harga DECIMAL(7,2),
+    catatan_khusus VARCHAR(100),
+    status_pesanan VARCHAR(100),
     pembeli_ps_id_pembeli INT,
     penjual_ps_id_penjual CHAR(5),
     FOREIGN KEY (pembeli_ps_id_pembeli) REFERENCES Pembeli(id_pembeli),
@@ -69,19 +73,20 @@ CREATE TABLE Pesanan (
 CREATE TABLE Pesanan_Menu (
     pesanan_pm_id_pesanan CHAR(5),
     menu_id_menu INT,
+      item_qty INT,
     FOREIGN KEY (pesanan_pm_id_pesanan) REFERENCES Pesanan(id_pesanan),
     FOREIGN KEY (menu_id_menu) REFERENCES Menu(id_menu)
 ) ENGINE=INNODB;
 
-CREATE TABLE Detail_Pesanan (
-    id_detail_pesanan CHAR(5) PRIMARY KEY,
-    jumlah_menu INT,
-    total_harga DECIMAL(7,2),
-    catatan_khusus VARCHAR(100),
-    status_pesanan VARCHAR(100),
-    pesanan_dp_id_pesanan CHAR(5),
-    FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
-) ENGINE=INNODB;
+-- CREATE TABLE Detail_Pesanan (
+--     id_detail_pesanan CHAR(5) PRIMARY KEY,
+--     jumlah_menu INT,
+--     total_harga DECIMAL(7,2),
+--     catatan_khusus VARCHAR(100),
+--     status_pesanan VARCHAR(100),
+--     pesanan_dp_id_pesanan CHAR(5),
+--     FOREIGN KEY (pesanan_dp_id_pesanan) REFERENCES Pesanan(id_pesanan)
+-- ) ENGINE=INNODB;
 
 
 INSERT INTO Penjual (id_penjual, nama_penjual, email_penjual, password_penjual, status_penjual) 
