@@ -15,10 +15,10 @@ Dengan SCourt, pengelola food court dapat mengontrol proses pemesanan, dan menye
 Tujuan dari project ini adalah untuk meningkatkan efisiensi operasional food court, meningkatkan kepuasan pelanggan, dan mendorong peningkatan penjualan bagi tenant.
 
 ### Conceptual Data Model (CDM)
-![cdm_fp-2024-06-26_21-02](https://github.com/fairuuz16/fp-mbd/assets/116330319/87db2f54-3f61-4774-a226-a049e8a5e0d1)
+![cdm_fp-2024-06-27_01-24](https://github.com/fairuuz16/fp-mbd/assets/116330319/7eeb58f5-ac76-42e8-a467-de9b67be97bf)
 
 ### Physical Data Model (PDM)
-![pdm_fp-2024-06-26_21-01](https://github.com/fairuuz16/fp-mbd/assets/116330319/2510b9a6-6f64-425c-8c59-744a8c84619c)
+![pdm_fp-2024-06-27_01-24](https://github.com/fairuuz16/fp-mbd/assets/116330319/6230a454-b295-4406-8729-3deed15c32b3)
 
 
 ## Usage
