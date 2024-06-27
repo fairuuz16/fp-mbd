@@ -81,7 +81,7 @@ export default {
 
     data() {
         return {
-            avaiableStatus: ["cancel", "confirmed", "preparing", "checking", "ready", "done"],
+            avaiableStatus: ["Cancelled", "confirmed", "preparing", "checking", "ready", "done"],
             allBills: [],
 
             sendId: null,

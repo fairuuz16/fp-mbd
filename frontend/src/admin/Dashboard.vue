@@ -30,7 +30,7 @@
                                 {{ avaiableStatus[b.status_pesanan + 1] }}
                             </button>
 
-                            <button v-if="b.status_pesanan == 1" class="cancel-btn" @click="cancelBtn(b.bill_id)">
+                            <button v-if="b.status_pesanan == 1" class="cancel-btn" @click="cancelBtn(b.id_pesanan)">
                                 Cancel
                             </button>
 
@@ -55,7 +55,7 @@ export default {
 
     data() {
         return {
-            avaiableStatus: ["cancel", "confirmed", "preparing", "checking", "ready", "done"],
+            avaiableStatus: ["Cancelled", "confirmed", "preparing", "checking", "ready", "done"],
             allBills: [],
             showOrderDetails: false,
             sendId: undefined,
