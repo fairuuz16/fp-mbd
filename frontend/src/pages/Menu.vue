@@ -103,7 +103,7 @@
                     <hr />
                 </div>
 
-                <div class="row filter-heading">
+                <!-- <div class="row filter-heading">
                     <h1>Duration</h1>
                 </div>
     
@@ -129,7 +129,7 @@
                         </li>
                     </ul>
                 </div>
-
+ -->
             </div>
 
 
