@@ -18,7 +18,7 @@ Tujuan dari project ini adalah untuk meningkatkan efisiensi operasional food cou
 ![cdm_fp-2024-06-27_01-24](https://github.com/fairuuz16/fp-mbd/assets/116330319/7eeb58f5-ac76-42e8-a467-de9b67be97bf)
 
 ### Physical Data Model (PDM)
-![pdm_fp-2024-06-27_01-24](https://github.com/fairuuz16/fp-mbd/assets/116330319/6230a454-b295-4406-8729-3deed15c32b3)
+![pdm_fp-2024-06-27_11-22](https://github.com/fairuuz16/fp-mbd/assets/116330319/dafb6aaa-4514-4675-9fe1-8a72311ad3a2)
 
 
 ## Usage
