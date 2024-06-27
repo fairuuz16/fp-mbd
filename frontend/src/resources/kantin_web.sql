@@ -179,101 +179,128 @@ VALUES
 
 SELECT * FROM Pesanan_Menu;
 
-
-
 -- FUNCTION
 DROP FUNCTION IF EXISTS CountTotalItem;
 DROP FUNCTION IF EXISTS SplitString;
 DROP FUNCTION IF EXISTS CalculateTotalPrice;
 
+-- CountTotalItem
 DELIMITER //
+
 CREATE FUNCTION CountTotalItem(cart_id_pembeli INT)
 RETURNS INT
 BEGIN
     DECLARE total_item INT;
-    
     SELECT SUM(item_qty)
     INTO total_item
     FROM Cart
     WHERE cart_id_pembeli = cart_id_pembeli;
-    
     RETURN total_item;
-END // 
+END //
+
 DELIMITER ;
 
+-- SplitString
 DELIMITER //
-CREATE FUNCTION SplitString(str VARCHAR(255), delim VARCHAR(12), pos INT) RETURNS VARCHAR(255)
+
+CREATE FUNCTION SplitString(
+    str VARCHAR(255),
+    delim VARCHAR(12),
+    pos INT
+)
+RETURNS VARCHAR(255)
 BEGIN
     RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(str, delim, pos),
            LENGTH(SUBSTRING_INDEX(str, delim, pos - 1)) + 1),
            delim, '');
 END //
+
 DELIMITER ;
 
-CREATE FUNCTION CalculateTotalPrice(jumlah INT, harga DECIMAL(7,2)) RETURNS DECIMAL(7,2)
+-- CalculateTotalPrice
+CREATE FUNCTION CalculateTotalPrice(
+    jumlah INT,
+    harga DECIMAL(7,2)
+)
+RETURNS DECIMAL(7,2)
 BEGIN
     DECLARE total DECIMAL(7,2);
     SET total = jumlah * harga;
     RETURN total;
 END
 
-
-
 -- PROCEDURE
 DROP PROCEDURE IF EXISTS UpdateStokMenu;
 DROP PROCEDURE IF EXISTS UpdateOrderStatus;
 DROP PROCEDURE IF EXISTS UpdateStatusPesanan;
 
-CREATE PROCEDURE UpdateStokMenu(IN menu_id CHAR(5), IN jumlah INT)
+-- UpdateStokMenu
+CREATE PROCEDURE UpdateStokMenu(
+    IN menu_id CHAR(5),
+    IN jumlah INT
+)
 BEGIN
     UPDATE Menu
     SET stok_menu = stok_menu - jumlah
     WHERE id_menu = menu_id;
 END
+
 CALL `UpdateStokMenu`('1', 2);
 
-CREATE PROCEDURE UpdateOrderStatus(IN p_id_pesanan CHAR(5), IN p_status_baru INT)
-BEGIN
-    DECLARE p_status_lama INT;
-    SELECT status_pesanan INTO p_status_lama
-    FROM Pesanan
-    WHERE id_pesanan = p_id_pesanan;
-    IF p_status_lama IS NOT NULL AND p_status_lama <> p_status_baru THEN
-        UPDATE Pesanan
-        SET status_pesanan = p_status_baru
-        WHERE id_pesanan = p_id_pesanan;
-    END IF;
-END
-CALL `UpdateOrderStatus`('1', 2);
+-- AddToCart
+DELIMITER //
 
-CREATE PROCEDURE UpdateStatusPesanan(
-    IN p_id_pesanan INT
+CREATE PROCEDURE AddToCart(
+    IN pembeli_id INT,
+    IN menu_id INT,
+    IN quantity INT
 )
+BEGIN
+    DECLARE existing_qty INT;
+    SELECT item_qty INTO existing_qty
+    FROM Cart
+    WHERE cart_id_pembeli = pembeli_id AND cart_id_menu = menu_id;
+
+    IF existing_qty IS NOT NULL THEN
+        UPDATE Cart
+        SET item_qty = item_qty + quantity
+        WHERE cart_id_pembeli = pembeli_id AND cart_id_menu = menu_id;
+    ELSE
+        INSERT INTO Cart (cart_id_pembeli, cart_id_menu, item_qty)
+        VALUES (pembeli_id, menu_id, quantity);
+    END IF;
+END //
+
+DELIMITER ;
+
+CALL `AddToCart`(1, 3, 2);
+
+-- UpdateStatusPesanan
+CREATE PROCEDURE UpdateStatusPesanan(IN p_id_pesanan INT)
 BEGIN
     UPDATE Pesanan
     SET status_pesanan = status_pesanan + 1
     WHERE id_pesanan = p_id_pesanan;
 END
+
 CALL `UpdateStatusPesanan`(1);
-
-
 
 -- TRIGGER
 SHOW TRIGGERS FROM fp_mbd;
 DROP TRIGGER IF EXISTS ;
+DROP TRIGGER IF EXISTS AfterInsertPesananMenu;
 
-
-DROP TRIGGER IF EXISTS after_insert_pesanan_menu;
+-- AfterInsertPesananMenu
 DELIMITER //
-CREATE TRIGGER after_insert_pesanan_menu
+
+CREATE TRIGGER AfterInsertPesananMenu
 AFTER INSERT ON Pesanan_Menu
 FOR EACH ROW
 BEGIN
-    CALL UpdateStokMenu(NEW.menu_id_menu, NEW.item_qty);
-END;
-//
-DELIMITER ;
+    CALL `UpdateStokMenu`(NEW.menu_id_menu, NEW.item_qty);
+END //
 
+DELIMITER ;
 
 -- INDEX
 SHOW INDEXES FROM Penjual;
@@ -319,6 +346,7 @@ FROM
     JOIN Menu pm ON psn.menu_id_menu = pm.id_menu
     JOIN Penjual pj ON pm.penjual_me_id_penjual = pj.id_penjual;
 
+SELECT * FROM PesananDetail WHERE ID_Pesanan = 'PS001';
 
 CREATE VIEW MenuDiskon AS
 SELECT 
@@ -334,4 +362,4 @@ FROM
 WHERE
     m.diskon_menu > 0;
 
-
+SELECT * FROM MenuDiskon;
